@@ -1,0 +1,866 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <idinfo>
+    <citation>
+      <citeinfo>
+        <origin>Federal Emergency Management Agency</origin>
+        <pubdate>20160602</pubdate>
+        <title>FLOOD RISK DATABASE, LYCOMING COUNTY, PA, CASE #11-03-1993S</title>
+		<edition>Version 2.1.3.2</edition>
+        <geoform>FEMA-FRD</geoform>
+        <pubinfo>
+          <pubplace>Washington, DC</pubplace>
+          <publish>Federal Emergency Management Agency</publish>
+        </pubinfo>
+        <onlink>https://msc.fema.gov</onlink>
+        <lworkcit>
+          <citeinfo>
+            <origin>Federal Emergency Management Agency</origin>
+            <pubdate>Unknown</pubdate>
+            <title>FEMA CASE 11-03-1993S</title>
+          </citeinfo>
+        </lworkcit>
+      </citeinfo>
+    </citation>
+    <descript>
+      <abstract>The Flood Risk Database (FRD) contains risk information and supporting data used to depict risk data on a project level. The primary risk data developed are the Changes Since Last FIRM, Risk Assessment Results, Areas of Mitigation Interest, Depth and Annual Chance grids. The FRD is derived from Flood Insurance Studies (FISs), previously published Flood Insurance Rate Maps (FIRMs), flood hazard analyses performed in support of the FISs and FIRMs,  new mapping data, where available, and Hazus risk analysis. The Flood Risk Report, Flood Risk Map, and the average annualized loss are published by the Federal Emergency Management Agency (FEMA).</abstract>
+      <purpose>The Flood Risk Map (FRM) and Flood Risk Report (FRR) provide local communities with a summary of flood risk that can be used to develop mitigation strategies and actions. The information presented herein will assist local elected officials, floodplain managers, planners, emergency managers, and many other stakeholders in understanding local flood risk so that it can be better communicated to the general public. Data within this report is presented at both the watershed and/or community levels, in narrative, spatial, and tabular formats. Providing risk assessment information at the watershed level emphasizes that flood risk extends beyond community corporate limits and flood risk reduction activities impact areas beyond the immediate site. A project-level FRM is also included, which highlights areas of relative risk within the watershed, community boundaries in relation to the overall watershed, flooding sources and stream reaches that were newly or re-studied, and the contributing factors to flood losses. The Flood Risk Database (FRD) presents the risk information depicted on the FRM in a digital format suitable for use in electronic mapping applications.</purpose>
+    </descript>
+    <timeperd>
+      <timeinfo>
+        <sngdate>
+          <caldate>20160602</caldate>
+        </sngdate>
+      </timeinfo>
+      <current>MIP Submission Date</current>
+    </timeperd>
+    <status>
+      <progress>Complete</progress>
+      <update>Unknown</update>
+    </status>
+    <spdom>
+      <bounding>
+        <westbc>-77.6401</westbc>
+        <eastbc>-76.3673</eastbc>
+        <northbc>41.6467</northbc>
+        <southbc>40.9856</southbc>
+      </bounding>
+    </spdom>
+    <keywords>
+      <theme>
+        <themekt>ISO 19115 Topic Category</themekt>
+        <themekey>Hydrology</themekey>
+        <themekey>Environment</themekey>
+        <themekey>Inland Waters</themekey>
+        <themekey>Structure</themekey>
+        <themekey>Transportation</themekey>
+        <themekey>Elevation</themekey>
+		<themekey>Boundaries</themekey>
+      </theme>
+      <theme>
+        <themekt>FEMA NFIP Topic Category</themekt>
+        <themekey>FEMA Flood Hazard Zone</themekey>
+        <themekey>DFIRM Database</themekey>
+        <themekey>DFIRM</themekey>
+        <themekey>Special Flood Hazard Area</themekey>
+        <themekey>Digital Flood Insurance Rate Map</themekey>
+        <themekey>Riverine Flooding</themekey>
+        <themekey>NFIP</themekey>
+        <themekey>BFE</themekey>
+        <themekey>SFHA</themekey>
+        <themekey>Flood Insurance Rate Map</themekey>
+        <themekey>FIRM</themekey>
+        <themekey>Floodway</themekey>
+		<themekey>Changes Since Last FIRM</themekey>
+		<themekey>CSLF</themekey>
+		<themekey>Areas of Mitigation Interest</themekey>
+		<themekey>AoMI</themekey>
+		<themekey>Flood Risk Report</themekey>
+		<themekey>FRR</themekey>
+		<themekey>Flood Risk Map</themekey>
+		<themekey>FRM</themekey>
+		<themekey>HAZUS</themekey>
+      </theme>
+      <place>
+        <placekt>none</placekt>
+        <placekey>REGION 03</placekey>
+        <placekey>STATE PA</placekey>
+		<placekey>HUC8 Upper Susquehanna-Tunkhannock</placekey>
+		<placekey>HYDROLOGIC UNIT 02050106</placekey>
+		<placekey>HUC8 Upper Susquehanna-Lackawanna</placekey>
+		<placekey>HYDROLOGIC UNIT 02050107</placekey>
+		<placekey>HUC8 Middle West Branch Susquehanna</placekey>
+		<placekey>HYDROLOGIC UNIT 02050203</placekey>
+		<placekey>HUC8 Bald Eagle</placekey>
+		<placekey>HYDROLOGIC UNIT 02050204</placekey>		
+		<placekey>HUC8 Pine</placekey>
+		<placekey>HYDROLOGIC UNIT 02050205</placekey>
+		<placekey>HUC8 Lower West Branch Susquehanna</placekey>
+		<placekey>HYDROLOGIC UNIT 02050206</placekey>			
+        <placekey>COUNTY Lycoming County</placekey>
+        <placekey>COUNTY-FIPS 42081</placekey>
+        <placekey>COMMUNITY LYCOMING COUNTY</placekey>
+		<placekey>COMMUNITY LYCOMING COUNTY (ALL JURISDICTIONS)</placekey>
+        <placekey>FEMA-CID 42081C</placekey>
+      </place>
+    </keywords>
+    <accconst>None</accconst>
+    <useconst>The Flood Risk Database (FRD) and the accompanying Flood Risk Report (FRR) and Flood Risk Map (FRM) are not intended to be the final authoritative source of all flood risk data in a watershed. Rather, they should be used in conjunction with other data sources (including hazard mitigation plans and emergency action plans) to provide a more complete picture of flood risk. Flood risk is always changing, and there may be other studies, reports, and other sources of information available that provide more information. Acknowledgement of FEMA would be appreciated in products derived from these data.</useconst>
+    <ptcontac>
+      <cntinfo>
+        <cntorgp>
+          <cntorg>Federal Emergency Management Agency</cntorg>
+        </cntorgp>
+        <cntpos>Federal Insurance and Mitigation Administration</cntpos>
+        <cntaddr>
+          <addrtype>mailing</addrtype>
+          <address>500 C Street, S.W.</address>
+          <city>Washington</city>
+          <state>District of Columbia</state>
+          <postal>20472</postal>
+          <country>USA</country>
+        </cntaddr>
+        <cntvoice>1-877-336-2627</cntvoice>
+        <cntemail>FEMAMapSpecialist@riskmapcds.com</cntemail>
+      </cntinfo>
+    </ptcontac>
+    <native>Original data development environment may vary. Finishing of the data is done using Esri’s ArcGIS software. The submitted file geodatabase was created using ArcGIS version 10.0.</native>
+    <crossref>
+      <citeinfo>
+        <origin>Federal Emergency Management Agency</origin>
+        <pubdate>20160602</pubdate>
+        <title>Flood Risk Map, 11-03-1993S, Lycoming County</title>
+        <geoform>Map</geoform>
+        <pubinfo>
+          <pubplace>Washington, DC</pubplace>
+          <publish>Federal Emergency Management Agency</publish>
+        </pubinfo>
+        <onlink>http://hazards.fema.gov</onlink>
+      </citeinfo>
+    </crossref>
+    <crossref>
+      <citeinfo>
+        <origin>Federal Emergency Management Agency</origin>
+        <pubdate>20160602</pubdate>
+        <title>Flood Risk Report, 11-03-1993S, Lycoming County</title>
+        <geoform>Document</geoform>
+        <pubinfo>
+          <pubplace>Washington, DC</pubplace>
+          <publish>Federal Emergency Management Agency</publish>
+        </pubinfo>
+        <onlink>http://hazards.fema.gov</onlink>
+      </citeinfo>
+    </crossref>
+  </idinfo>
+  <dataqual>
+    <attracc>
+      <attraccr>The Flood Risk Database (FRD) consists of watershed based vector and raster files containing the associated attributes produced in conjunction with the Flood Risk Map (FRM) and Flood Risk Report (FRR). To obtain more detailed information users are encouraged to consult the Flood Risk Report that accompanies this Flood Risk Database.”
+“Independent quality control testing of FEMA's Flood Risk Database was also performed.</attraccr>
+    </attracc>
+    <logic>The FRR and FRM are developed from the FRD to ensure that the information shown on the FRM and in the FRR agree with the FRD.</logic>
+    <complete>The Flood Risk Database (FRD) stores the data used to prepare the accompanying Flood Risk Report (FRR) and Flood Risk Map (FRM) as well as other ancillary data generated during a flood risk project.  The FRD provides a standard, systematic method for FEMA to collect, store, and distribute comprehensive details of flood studies to the public and others in a digital format.  However, it is not intended to be the final authoritative source of all flood risk data in a watershed. Rather, the FRD, FRR, and FRM should be used in conjunction with other data sources (including hazard mitigation plans and emergency action plans) to provide a more complete picture of flood risk. Flood risk is always changing, and there may be other studies, reports, and other sources of information available that provide more information.</complete>
+    <posacc>
+      <horizpa>
+        <horizpar>The Flood Risk Database consists of watershed based vector and raster data containing the associated attributes produced in conjunction with the Flood Risk Map and Flood Risk Report.  Independent quality control testing of FEMA's Flood Risk Database was also performed.</horizpar>
+      </horizpa>
+      <vertacc>
+        <vertaccr>The Flood Risk Database consists of watershed-based vector and raster data containing associated attributes produced in conjunction with the Flood Risk Map and Flood Risk Report.  Independent quality control testing of FEMA's Flood Risk Database was also performed.</vertaccr>
+      </vertacc>
+    </posacc>
+    <lineage>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>Pennsylvania Department of Transportation</origin>
+            <pubdate>20120510</pubdate>
+            <title>Lycoming County Political Boundaries and Road Centerlines</title>
+            <geoform>vector digital data</geoform>
+            <pubinfo>
+              <pubplace>Lycoming County, PA</pubplace>
+              <publish>Pennsylvania Department of Transportation</publish>
+            </pubinfo>
+            <othercit>Political boundaries and road centerlines within Lycoming County.</othercit>
+          </citeinfo>
+        </srccite>
+        <srcscale>24000</srcscale>
+        <typesrc>online</typesrc>
+        <srctime>
+          <timeinfo>
+            <sngdate>
+              <caldate>20120510</caldate>
+            </sngdate>
+          </timeinfo>
+          <srccurr>publication date</srccurr>
+        </srctime>
+        <srccitea>BASE4</srccitea>
+        <srccontr>Spatial and attribute information for political boundaries and road features.</srccontr>
+      </srcinfo>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>Pennsylvania State University</origin>
+            <pubdate>20070421</pubdate>
+            <title>Lycoming County Water lines</title>
+            <geoform>vector digital data</geoform>
+            <pubinfo>
+              <pubplace>University Park, Pennsylvania</pubplace>
+              <publish>Pennsylvania State University</publish>
+            </pubinfo>
+            <othercit>The NHD is a national framework for assigning reach addresses to water-related entities, such as industrial discharges, drinking water supplies, fish habitat areas, wild and scenic rivers. Reach addresses establish the locations of these entities relative to one another within the NHD surface water drainage network, much like addresses on streets. Once linked to the NHD by their reach addresses, the upstream/downstream relationships of these water-related entities--and any associated information about them--can be analyzed using software tools ranging from spreadsheets to geographic information systems (GIS). GIS can also be used to combine NHD-based network analysis with other data layers, such as soils, land use and population, to help understand and display their respective effects upon one another. Furthermore, because the NHD provides a nationally consistent framework for addressing and analysis, water-related information linked to reach addresses by one                                                    organization (national, state, local) can be shared with other organizations and easily integrated into many different types of applications to the benefit of all.</othercit>
+          </citeinfo>
+        </srccite>
+        <srcscale>100000</srcscale>
+        <typesrc>online</typesrc>
+        <srctime>
+          <timeinfo>
+            <sngdate>
+              <caldate>20070421</caldate>
+            </sngdate>
+          </timeinfo>
+          <srccurr>publication date</srccurr>
+        </srctime>
+        <srccitea>BASE5</srccitea>
+        <srccontr>Spatial and attribute information for water areas and stream centerlines.</srccontr>
+      </srcinfo>
+	  <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>USGS</origin>
+            <pubdate>2012</pubdate>
+            <title>Watershed Boundary Dataset HUC Boundaries</title>
+            <geoform>Vector digital data</geoform>
+            <pubinfo>
+              <pubplace>Reston, VA</pubplace>
+              <publish>USGS</publish>
+            </pubinfo>
+            <othercit>HUC 8 boundaries used for this FRD.</othercit>
+          </citeinfo>
+        </srccite>
+        <srcscale>24000</srcscale>
+        <typesrc>Digitized</typesrc>
+        <srctime>
+          <timeinfo>
+            <sngdate>
+              <caldate>2012</caldate>
+            </sngdate>
+          </timeinfo>
+          <srccurr>Ground Conditions</srccurr>
+        </srctime>
+        <srccitea>BASE8</srccitea>
+        <srccontr>Spatial and attribute information for HUC boundaries.</srccontr>
+      </srcinfo>
+	  <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>TomTom North America, US Census, ESRI, USDA</origin>
+            <pubdate>20120301</pubdate>
+            <title>USA Counties</title>
+            <geoform>Vector digital data</geoform>
+            <pubinfo>
+              <pubplace>Redlands, CA</pubplace>
+              <publish>ESRI</publish>
+            </pubinfo>
+            <othercit>Data is provided by multiple third party vendors.</othercit>
+          </citeinfo>
+        </srccite>
+        <srcscale>50000</srcscale>
+        <typesrc>Digitized</typesrc>
+        <srctime>
+          <timeinfo>
+            <sngdate>
+              <caldate>20120301</caldate>
+            </sngdate>
+          </timeinfo>
+          <srccurr>Ground Conditions</srccurr>
+        </srctime>
+        <srccitea>BASE9</srccitea>
+        <srccontr>Spatial and attribute information for county boundaries.</srccontr>
+      </srcinfo>
+      <srcinfo>
+        <srccite>
+          <citeinfo>
+            <origin>Federal Emergency Management Agency</origin>
+            <pubdate>20040316</pubdate>
+            <title>Lycoming County Flood Insurance Study</title>
+            <geoform>map and report</geoform>
+            <pubinfo>
+              <pubplace>Washington, D.C.</pubplace>
+              <publish>Federal Emergency Management Agency</publish>
+            </pubinfo>
+            <othercit>The FIS and FIRM are the basis for floodplain management, mitigation, and insurance activities for the
+            National Flood Insurance Program (NFIP). This DFIRM includes data previously published by FEMA in the 
+            following Flood Insurance Studies: Township of Anthony, PA 19770318, Township of Armstrong, PA 19790928, Township of Bastress, PA 19840924, Township of Brady, PA 19790716, Township of Brown, PA 19810302, Township of Cascade, PA 19760528, Township of Clinton, PA 19790928, Township of Cogan House, PA 19750404, Township of Cummings, PA 19800917, Borough of Duboistown, PA 19770301, Township of Eldred, PA 19800917, Township of Fairfield, PA 19810601, Township of Franklin, PA 19870601, Township of Gamble, PA 19800930, Township of Hepburn, PA 19820217, Borough of Hughesville, PA 19811015, Township of Jackson, PA 19750328, Borough of Jersey Shore, PA 19760423, Township of Jordan, PA 19750124, Township of Lewis, PA 19830302, Township of Limestone, PA 19750124, Township of Loyalsock, PA 19840417, Township of Lycoming, PA 19830901, Township of McHenry, PA 19800815, Township of McIntyre, PA 19811104, Township of McNett, PA 19831223, Township of Mifflin, PA 19850417, Township of Mill Creek, PA 19790302, Borough of Montgomery, PA 19780615, Borough of Montoursville, PA 19770815, Township of Moreland, PA 19810302, Borough of Muncy, PA 19930203, Township of Muncy, PA 19870819, Township of Muncy Creek, PA 19800930, Township of Nippenose, PA 19800415, Township of Old Lycoming, PA 19770415, Township of Penn, PA 19900815, Township of Piatt, PA 19800401, Borough of Picture Rocks, PA 19900905, Township of Pine, PA 19800917, Township of Plunketts Creek, PA 19820802, Township of Porter, PA 19770114, Borough of Salladasburg, PA 19820120, Township of Shrewsbury, PA 19901215, Borough of South Williamsport, PA 19770415, Township of Susquehanna, PA 19790928, Township of Upper Fairfield, PA 19800917, Township of Washington, PA 19750711, Township of Watson, PA 19801015, City of Williamsport, PA 19771201, Township of Wolf, PA 19801202, Township of Woodward, PA 19810403.
+            FEMA has updated the FIS to include restudy information. The restudy information includes the following streams studied by detailed methods: Stroehmann Overland Flow from the confluence with Lycoming Creek to a point approximately 60 feet upstream of Pleasant Hill Road, Loyalsock Creek from the confluence with West Branch Susquehanna River to a point approximately 0.45 mile upstream of Dunwoody Road, and Muncy Creek from the confluence with West Branch Susquehanna River to a point approximately 1.47 miles upstream of Boston Road. The following streams were restudied by detailed methods: Lycoming Creek from the confluence with West Branch Susquehanna River to a point approximately 1.06 miles upstream of the most upstream crossing of State Route 14 and Pine Creek from the confluence with West Branch Susquehanna River to a point approximately 2,350 feet upstream of the most upstream crossing of State Route 44. The floodway along Glade Run in the Township of Muncy Creek and the Borough of Muncy was revised to account for the floodways along West Branch Susquehanna River and Muncy Creek. Backwater elevations on the tributaries of the streams listed and that were studied in detail in the earlier FISs were revised as needed. The work for Muncy Creek and Loyalsock Creek was completed in March 2001, and the work for Pine Creek was completed in September 2002. The following Letters of Map Revision were also included: July 27, 1992 in the Township of Fairfield, Loyalsock Creek, Mill Creek in the vicinity of State Route 87 (Loyalsock Creek portion is not incorporated) and July 2, 1992 in the Township of Upper Fairfield, Loyalsock Creek, Mill Creek in the vicinity of State Route 87 (Loyalsock Creek portion is not incoporated).</othercit>
+          </citeinfo>
+        </srccite>
+        <typesrc>Paper</typesrc>
+        <srctime>
+          <timeinfo>
+            <sngdate>
+              <caldate>20040316</caldate>
+            </sngdate>
+          </timeinfo>
+          <srccurr>FIS Effective Date</srccurr>
+        </srctime>
+        <srccitea>FIS1</srccitea>
+        <srccontr>Spatial and attribute information for cross sections, floodplain boundaries, general structures, and profile baselines.</srccontr>
+      </srcinfo>				
+<srcinfo>
+<srccite>
+<citeinfo>
+<origin>Michael Baker Jr. Inc.</origin>
+<pubdate>20131031</pubdate>
+<title>Lycoming County Detailed and Limited Detailed Studies</title>
+<geoform>vector digital data</geoform>
+<othercit>Detailed - Larrys Creek.  Limited Detailed - Little Bear Run, Little Muncy Creek, Little Pine Creek, Pine Creek, and Wolf Run No. 1.                                  
+ </othercit>
+</citeinfo>
+</srccite>
+<typesrc>Electronic file</typesrc>
+<srctime>
+<timeinfo>
+<sngdate>
+<caldate>20131031</caldate>
+</sngdate>
+</timeinfo>
+<srccurr>Calendar date</srccurr>
+</srctime>
+<srccitea>STUDY2</srccitea>
+<srccontr>Spatial and attribute information for floodplain boundaries, BFEs, cross sections, general structures, profile baselines, and station start points.</srccontr>
+</srcinfo>
+<srcinfo>
+<srccite>
+<citeinfo>
+<origin>Michael Baker Jr. Inc.</origin>
+<pubdate>20131031</pubdate>
+<title>Lycoming County Redelineation Streams</title>
+<geoform>vector digital data</geoform>
+<othercit>Redelineated - Loyalsock Creek, Lycoming Creek, Muncy Creek, and Pine Creek.                              
+ </othercit>
+</citeinfo>
+</srccite>
+<typesrc>Electronic file</typesrc>
+<srctime>
+<timeinfo>
+<sngdate>
+<caldate>20131031</caldate>
+</sngdate>
+</timeinfo>
+<srccurr>Calendar date</srccurr>
+</srctime>
+<srccitea>STUDY3</srccitea>
+<srccontr>Spatial and attribute information for floodplain boundaries, BFEs, general structures, and profile baselines.</srccontr>
+</srcinfo>
+<srcinfo>
+<srccite>
+<citeinfo>
+<origin>Michael Baker Jr. Inc.</origin>
+<pubdate>20131031</pubdate>
+<title>Lycoming County Tie-In Areas</title>
+<geoform>vector digital data</geoform>
+<othercit>Unrevised streams adjusted to tie-into the redelineated streams.                                 
+ </othercit>
+</citeinfo>
+</srccite>
+<typesrc>Electronic file</typesrc>
+<srctime>
+<timeinfo>
+<sngdate>
+<caldate>20131031</caldate>
+</sngdate>
+</timeinfo>
+<srccurr>Calendar date</srccurr>
+</srctime>
+<srccitea>STUDY4</srccitea>
+<srccontr>Spatial and attribute information for floodplain boundaries.</srccontr>
+</srcinfo>
+<srcinfo>
+<srccite>
+<citeinfo>
+<origin>Michael Baker Jr. Inc.</origin>
+<pubdate>20140206</pubdate>
+<title>Lycoming County Approximate Studies</title>
+<geoform>vector digital data</geoform>
+<othercit>New approximate floodplains were delineated for Bottle Run and Hagermans Run.                                  
+ </othercit>
+</citeinfo>
+</srccite>
+<typesrc>Electronic file</typesrc>
+<srctime>
+<timeinfo>
+<sngdate>
+<caldate>20140206</caldate>
+</sngdate>
+</timeinfo>
+<srccurr>Calendar date</srccurr>
+</srctime>
+<srccitea>STUDY7</srccitea>
+<srccontr>Spatial and attribute information for floodplain boundaries and general structures.</srccontr>
+</srcinfo>
+<srcinfo>
+<srccite>
+<citeinfo>
+<origin>Lycoming County</origin>
+<pubdate>20140408</pubdate>
+<title>Lycoming County Zone A Analysis and Conversion to X Shaded</title>
+<geoform>vector digital data</geoform>
+<othercit>An analysis was done to determine the accuracy of Effective Zone A delineations using the latest available topography.  Those that did not pass a certain accuracy threshold were converted to X Shaded.                                  
+ </othercit>
+</citeinfo>
+</srccite>
+<typesrc>Electronic file</typesrc>
+<srctime>
+<timeinfo>
+<sngdate>
+<caldate>20140408</caldate>
+</sngdate>
+</timeinfo>
+<srccurr>Calendar date</srccurr>
+</srctime>
+<srccitea>STUDY8</srccitea>
+<srccontr>Spatial and attribute information for floodplain boundaries.</srccontr>
+</srcinfo>
+<srcinfo>
+<srccite>
+<citeinfo>
+<origin>Michael Baker Jr. Inc.</origin>
+<pubdate>20140515</pubdate>
+<title>Lycoming County partial Redelineation of Gregs Run</title>
+<geoform>vector digital data</geoform>
+<othercit>Redelineated - lower portion of Gregs Run from approximately 1,400 feet upstream of Gregs Run Road to approximately 600 feet downstream of State Route 118.                            
+ </othercit>
+</citeinfo>
+</srccite>
+<typesrc>Electronic file</typesrc>
+<srctime>
+<timeinfo>
+<sngdate>
+<caldate>20140515</caldate>
+</sngdate>
+</timeinfo>
+<srccurr>Calendar date</srccurr>
+</srctime>
+<srccitea>STUDY9</srccitea>
+<srccontr>Spatial and attribute information for floodplain boundaries, BFEs, and general structures.</srccontr>
+</srcinfo>
+<srcinfo>
+<srccite>
+<citeinfo>
+<origin>Michael Baker Jr. Inc.</origin>
+<pubdate>20140515</pubdate>
+<title>Lycoming County Trout Run Detailed Study</title>
+<geoform>vector digital data</geoform>
+<othercit>Leveraged study provided by the Township of Lewis for incorporation into this FIS.
+ </othercit>
+</citeinfo>
+</srccite>
+<typesrc>Electronic file</typesrc>
+<srctime>
+<timeinfo>
+<sngdate>
+<caldate>20140515</caldate>
+</sngdate>
+</timeinfo>
+<srccurr>Calendar date</srccurr>
+</srctime>
+<srccitea>STUDY10</srccitea>
+<srccontr>Spatial and attribute information for floodplain boundaries, BFEs, cross sections, general structures, and profile baselines.</srccontr>
+</srcinfo>
+<srcinfo>
+<srccite>
+<citeinfo>
+<origin>Michael Baker Jr. Inc.</origin>
+<pubdate>20140625</pubdate>
+<title>Lycoming County West Branch Susquehanna River Model Correction at Muncy Creek</title>
+<geoform>vector digital data</geoform>
+<othercit>Roughness value and railroad bridge geometry corrections were made to the West Branch Susquehanna River hydraulic model in the reach generally between Montgomery Borough and Muncy Township, affecting the main stem of the river and backwater areas on Muncy Creek, Glade Run, and Wolf Run No.1.
+ </othercit>
+</citeinfo>
+</srccite>
+<typesrc>Electronic file</typesrc>
+<srctime>
+<timeinfo>
+<sngdate>
+<caldate>20140625</caldate>
+</sngdate>
+</timeinfo>
+<srccurr>Calendar date</srccurr>
+</srctime>
+<srccitea>STUDY11</srccitea>
+<srccontr>Spatial and attribute information for floodplain boundaries, BFEs, cross sections, and general structures.</srccontr>
+</srcinfo>
+<srcinfo>
+<srccite>
+<citeinfo>
+<origin>Federal Emergency Management Agency</origin>
+<pubdate>20050729</pubdate>
+<title>04-03-075P</title>
+<geoform>map</geoform>
+ <pubinfo>
+ <pubplace>Washington, D.C.</pubplace>
+ <publish>Federal Emergency Management Agency</publish>
+ </pubinfo>
+<othercit>102/102a Letter of Map Correction [LOMC] published as revised floodplain/floodrisk data. LOMC locations supercede previously effective FIRMs by tying in elevation certificates with backup flood study data. LOMCs which are effective are considered legal tender for determining Flood Risk Zones, as described by the National Flood Insurance Program [NFIP].
+ </othercit>
+</citeinfo>
+</srccite>
+<typesrc>paper</typesrc>
+<srctime>
+<timeinfo>
+<sngdate>
+<caldate>20050729</caldate>
+</sngdate>
+</timeinfo>
+<srccurr>Effective date</srccurr>
+</srctime>
+<srccitea>LOMC2</srccitea>
+<srccontr>This LOMR revises the flood hazard information on Lycoming Creek in the area of the confluence with Rock Run.  It has been incorporated into this DFIRM.</srccontr>
+</srcinfo>
+<srcinfo>
+<srccite>
+<citeinfo>
+<origin>Federal Emergency Management Agency</origin>
+<pubdate>20110630</pubdate>
+<title>10-03-0172P</title>
+<geoform>map</geoform>
+ <pubinfo>
+ <pubplace>Washington, D.C.</pubplace>
+ <publish>Federal Emergency Management Agency</publish>
+ </pubinfo>
+<othercit>102/102a Letter of Map Correction [LOMC] published as revised floodplain/floodrisk data. LOMC locations supercede previously effective FIRMs by tying in elevation certificates with backup flood study data. LOMCs which are effective are considered legal tender for determining Flood Risk Zones, as described by the National Flood Insurance Program [NFIP].
+ </othercit>
+</citeinfo>
+</srccite>
+<typesrc>paper</typesrc>
+<srctime>
+<timeinfo>
+<sngdate>
+<caldate>20110630</caldate>
+</sngdate>
+</timeinfo>
+<srccurr>Effective date</srccurr>
+</srctime>
+<srccitea>LOMC3</srccitea>
+<srccontr>This LOMR revises the flood hazard information on Carpenters Run and Margaret Run.  It has been incorporated into this DFIRM.</srccontr>		
+</srcinfo>
+<srcinfo>
+<srccite>
+<citeinfo>
+<origin>Michael Baker Jr. Inc.</origin>
+<pubdate>20160301</pubdate>
+<title>Lycoming County Hazus Analysis (Version 2.2, 2010 Census Data, Level 2 using 1 Percent Depth Grid)</title>
+<geoform>vector digital data</geoform>
+ <pubinfo>
+ <pubplace>Washington, D.C.</pubplace>
+ <publish>Federal Emergency Management Agency</publish>
+ </pubinfo>
+</citeinfo>
+</srccite>
+<typesrc>Electronic file</typesrc>
+<srctime>
+<timeinfo>
+<sngdate>
+<caldate>20160301</caldate>
+</sngdate>
+</timeinfo>
+<srccurr>Calendar date</srccurr>
+</srctime>
+<srccitea>HAZUS1</srccitea>
+<srccontr>Hazus results were incorporated into this FRD.</srccontr>
+</srcinfo>
+      <procstep>
+        <procdesc>The Flood Risk Database is a non-regulatory database that includes flood hazard information from previously effective and new studies.  If present, flood depth grids were compiled using computed water surface elevations along flooding sources. If present, risk assessment results were derived from Hazus calculations. If present, areas of mitigation interest, were compiled from information gathered from local mitigation plans or discussion with local officials.</procdesc>
+        <srcused>BASE4</srcused>
+        <srcused>BASE5</srcused>
+		<srcused>BASE8</srcused>
+        <srcused>BASE9</srcused>
+		<srcused>FIS1</srcused>		
+        <srcused>STUDY2</srcused>				
+        <srcused>STUDY3</srcused>				
+        <srcused>STUDY4</srcused>					
+        <srcused>STUDY7</srcused>				
+        <srcused>STUDY8</srcused>				
+        <srcused>STUDY9</srcused>				
+        <srcused>STUDY10</srcused>						
+        <srcused>STUDY11</srcused>														
+        <srcused>LOMC2</srcused>
+        <srcused>LOMC3</srcused>
+		<srcused>HAZUS1</srcused>
+        <procdate>20160602</procdate>
+      </procstep>
+    </lineage>
+  </dataqual>
+  <spdoinfo>
+    <direct>Vector</direct>
+    <ptvctinf>
+      <sdtsterm>
+        <sdtstype>Point</sdtstype>
+      </sdtsterm>
+      <sdtsterm>
+        <sdtstype>String</sdtstype>
+      </sdtsterm>
+      <sdtsterm>
+        <sdtstype>GT-polygon composed of chains</sdtstype>
+      </sdtsterm>
+    </ptvctinf>
+  </spdoinfo>
+  <spref>
+    <horizsys>
+      <geograph>
+        <latres>0.000000</latres>
+		<longres>0.000000</longres>
+		<geogunit>decimal degrees</geogunit>
+      </geograph>
+      <geodetic>
+        <horizdn>North American Datum 1983</horizdn>
+        <ellips>Geodetic Reference System 80</ellips>
+        <semiaxis>6378137.0</semiaxis>
+        <denflat>298.257222</denflat>
+      </geodetic>
+    </horizsys>
+    <vertdef>
+      <altsys>
+        <altdatum>North American Vertical Datum of 1988</altdatum>
+        <altres>0.0001</altres>
+        <altunits>Feet</altunits>
+        <altenc>Explicit elevation coordinate included with horizontal coordinates</altenc>
+      </altsys>
+    </vertdef>
+  </spref>
+  <eainfo>
+    <detailed>
+      <enttyp>
+        <enttypl>S_Carto_Ar</enttypl>
+        <enttypd>Location and attributes for cartographic polygons for the background on the FRM.</enttypd>
+		<enttypds>FEMA FRD Technical Reference (available on the FEMA Risk MAP Knowledge Sharing Site).</enttypds>
+      </enttyp>
+    </detailed>
+    <detailed>
+      <enttyp>
+        <enttypl>S_Carto_Ln</enttypl>
+        <enttypd>Location and attributes for cartographic lines for the background on the FRM.</enttypd>
+		<enttypds>FEMA FRD Technical Reference (available on the FEMA Risk MAP Knowledge Sharing Site).</enttypds>
+      </enttyp>
+    </detailed>
+    <detailed>
+      <enttyp>
+        <enttypl>S_CenBlk_Ar</enttypl>
+        <enttypd>Location and attributes for US Census Block data used in the FRM.</enttypd>
+		<enttypds>FEMA FRD Technical Reference (available on the FEMA Risk MAP Knowledge Sharing Site).</enttypds>
+      </enttyp>
+    </detailed>
+    <detailed>
+      <enttyp>
+        <enttypl>S_CSLF_Ar</enttypl>
+        <enttypd>Location and attributes for the changes since last FIRM for the study area referenced in the FRR.</enttypd>
+		<enttypds>FEMA FRD Technical Reference (available on the FEMA Risk MAP Knowledge Sharing Site).</enttypds>
+      </enttyp>
+    </detailed>
+    <detailed>
+      <enttyp>
+        <enttypl>S_FRD_Pol_Ar</enttypl>
+        <enttypd>Location and attributes for political jurisdictions shown on the FRM.</enttypd>
+		<enttypds>FEMA FRD Technical Reference (available on the FEMA Risk MAP Knowledge Sharing Site).</enttypds>
+      </enttyp>
+    </detailed>
+    <detailed>
+      <enttyp>
+        <enttypl>S_FRD_Proj_Ar</enttypl>
+        <enttypd>Location and attributes for the spatial footprint of the project.</enttypd>
+		<enttypds>FEMA FRD Technical Reference (available on the FEMA Risk MAP Knowledge Sharing Site).</enttypds>
+      </enttyp>
+    </detailed>
+    <detailed>
+      <enttyp>
+        <enttypl>S_HUC_Ar</enttypl>
+        <enttypd>Location and attributes for HUC watershed boundaries for the flood risk project area.</enttypd>
+		<enttypds>FEMA FRD Technical Reference (available on the FEMA Risk MAP Knowledge Sharing Site).</enttypds>
+      </enttyp>
+    </detailed>
+	<detailed>
+      <enttyp>
+        <enttypl>depth_0_2pct</enttypl>
+        <enttypd>Raster dataset of flood depth for a 0.2% event.</enttypd>
+		<enttypds>FEMA FRD Technical Reference (available on the FEMA Risk MAP Knowledge Sharing Site).</enttypds>
+      </enttyp>
+    </detailed>
+    <detailed>
+      <enttyp>
+        <enttypl>depth_01pct</enttypl>
+        <enttypd>Raster dataset of flood depth for a 1% event.</enttypd>
+		<enttypds>FEMA FRD Technical Reference (available on the FEMA Risk MAP Knowledge Sharing Site).</enttypds>
+      </enttyp>
+    </detailed>
+	<detailed>
+      <enttyp>
+        <enttypl>depth_02pct</enttypl>
+        <enttypd>Raster dataset of flood depth for a 2% event.</enttypd>
+		<enttypds>FEMA FRD Technical Reference (available on the FEMA Risk MAP Knowledge Sharing Site).</enttypds>
+      </enttyp>
+    </detailed>
+    <detailed>
+      <enttyp>
+        <enttypl>depth_10pct</enttypl>
+        <enttypd>Raster dataset of flood depth for a 10% event.</enttypd>
+		<enttypds>FEMA FRD Technical Reference (available on the FEMA Risk MAP Knowledge Sharing Site).</enttypds>
+      </enttyp>
+    </detailed>
+    <detailed>
+      <enttyp>
+        <enttypl>hillshade</enttypl>
+        <enttypd>Raster dataset for the hillshade of the watershed shown on the FRM.</enttypd>
+		<enttypds>FEMA FRD Technical Reference (available on the FEMA Risk MAP Knowledge Sharing Site).</enttypds>
+      </enttyp>
+    </detailed>
+	<detailed>
+      <enttyp>
+        <enttypl>lyco_dem_5m</enttypl>
+        <enttypd>Raster dataset of the ground elevations of the study area.</enttypd>
+		<enttypds>FEMA FRD Technical Reference (available on the FEMA Risk MAP Knowledge Sharing Site).</enttypds>
+      </enttyp>
+    </detailed>
+	<detailed>
+      <enttyp>
+        <enttypl>wse_0_2pct</enttypl>
+        <enttypd>Raster dataset of the water surface for a 0.2% event.</enttypd>
+		<enttypds>FEMA FRD Technical Reference (available on the FEMA Risk MAP Knowledge Sharing Site).</enttypds>
+      </enttyp>
+    </detailed>
+	<detailed>
+      <enttyp>
+        <enttypl>wse_01pct</enttypl>
+        <enttypd>Raster dataset of the water surface for a 1% event.</enttypd>
+		<enttypds>FEMA FRD Technical Reference (available on the FEMA Risk MAP Knowledge Sharing Site).</enttypds>
+      </enttyp>
+    </detailed>
+	<detailed>
+      <enttyp>
+        <enttypl>wse_02pct</enttypl>
+        <enttypd>Raster dataset of the water surface for a 2% event.</enttypd>
+		<enttypds>FEMA FRD Technical Reference (available on the FEMA Risk MAP Knowledge Sharing Site).</enttypds>
+      </enttyp>
+    </detailed>
+	<detailed>
+      <enttyp>
+        <enttypl>wse_10pct</enttypl>
+        <enttypd>Raster dataset of the water surface for a 10% event.</enttypd>
+		<enttypds>FEMA FRD Technical Reference (available on the FEMA Risk MAP Knowledge Sharing Site).</enttypds>
+      </enttyp>
+    </detailed>
+    <overview>
+      <eaover>The Flood Risk Database is made up of several data themes containing both spatial and attribute information. These data together represent the current flood risk for the subject area as identified by FEMA. The attribute tables include NHD subbasins, Changes Since Last FIRM, Political Areas, US Census Blocks, Areas of Mitigation Interest, location of User Defined Facilities, and annual chance grids.</eaover>
+      <eadetcit>FEMA’s FRD Technical Reference contains a detailed description of each attribute code and a reference to other relevant information.</eadetcit>
+      <eadetcit>The following tables and rasters are included in this data set: 
+FRD_Model_Info 
+FRD_Study_Info
+FRR_Project
+L_CSLF_Summary
+L_Exposure 
+L_RA_Refined
+L_RA_Summary
+L_Source_Cit
+S_Carto_Ar
+S_Carto_Ln
+S_CenBlk_Ar
+S_CSLF_Ar
+S_FRD_Pol_Ar
+S_FRD_Proj_Ar
+S_HUC_Ar
+depth_0_2pct
+depth_01pct
+depth_02pct
+depth_10pct
+FRM_42081C_Larrys_CSLF_20160602
+FRM_42081C_Larrys_Depth_20160602
+FRM_42081C_Loyalsock_CSLF_20160602
+FRM_42081C_Loyalsock_Depth_20160602
+FRM_42081C_Lycoming_CSLF_20160602
+FRM_42081C_Lycoming_Depth_20160602
+FRM_42081C_Muncy_CSLF_20160602
+FRM_42081C_Muncy_Depth_20160602
+FRM_42081C_Pine_CSLF_20160602
+FRM_42081C_Pine_Depth_20160602
+FRM_42081C_WBSR_CSLF_20160602
+FRM_42081C_WBSR_Depth_20160602
+hillshade
+lyco_dem_5m
+wse_0_2pct
+wse_01pct
+wse_02pct
+wse_10pct
+    </eadetcit>
+    </overview>
+  </eainfo>
+  <distinfo>
+    <distrib>
+      <cntinfo>
+        <cntorgp>
+          <cntorg>FEMA, Map Service Center</cntorg>
+        </cntorgp>
+        <cntaddr>
+          <addrtype>mailing</addrtype>
+          <address>P.O. Box 3617</address>
+          <city>Oakton</city>
+          <state>Virginia</state>
+          <postal>22124</postal>
+          <country>USA</country>
+        </cntaddr>
+        <cntvoice>1-877-336-2627</cntvoice>
+        <cntemail>FEMAMapSpecialist@riskmapcds.com</cntemail>
+        <cntinst>Data requests must include the full name of the community, county, watershed, or watershed code.</cntinst>
+      </cntinfo>
+    </distrib>
+    <distliab>No warranty expressed or implied is made by FEMA regarding the utility of the data on any other system nor shall the act of distribution constitute any such warranty. FEMA will warrant the delivery of this product in a computer-readable format, and will offer appropriate adjustment of credit when the product is determined unreadable by correctly adjusted computer input peripherals, or when the physical medium is delivered in damaged condition. Requests for adjustment of credit must be made within 90 days from the date of this shipment from the ordering site.</distliab>
+    <stdorder>
+      <digform>
+        <digtinfo>
+          <formname>ESRI Geodatabase</formname>
+		  <formname>ESRI Shapefile</formname>
+		  <formname>ESRI GRID</formname>
+		  <formname>GeoTIFF</formname>
+        </digtinfo>
+        <digtopt>
+          <onlinopt>
+            <computer>
+              <networka>
+                <networkr>http://www.msc.fema.gov</networkr>
+              </networka>
+            </computer>
+          </onlinopt>
+        </digtopt>
+      </digform>
+      <fees>Contact Distributor</fees>
+    </stdorder>
+  </distinfo>
+  <metainfo>
+    <metd>20160602</metd>
+    <metc>
+      <cntinfo>
+        <cntperp>
+          <cntper>Fran McJunkin, CFM</cntper>
+          <cntorg>Lycoming County, Planning and Community Development</cntorg>
+        </cntperp>
+        <cntpos>Deputy Director</cntpos>
+        <cntaddr>
+          <addrtype>mailing address</addrtype>
+          <address>48 West Third Street</address>
+          <city>Williamsport</city>
+          <state>PA</state>
+          <postal>17701</postal>
+          <country>USA</country>
+        </cntaddr>
+        <cntvoice>570-320-2139</cntvoice>
+        <cntemail>FMcJunkin@lyco.org</cntemail>
+        <cntinst>None</cntinst>
+      </cntinfo>
+    </metc>
+    <metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+    <metstdv>FGDC-STD-1-1998</metstdv>
+    <metextns>
+      <onlink>http://hazards.fema.gov</onlink>
+      <onlink>http://www.epsg.org</onlink>
+      <metprof>FEMA NFIP Metadata Content and Format Standard</metprof>
+    </metextns>
+  </metainfo>
+</metadata>
+
