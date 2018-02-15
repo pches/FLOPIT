@@ -9,5 +9,6 @@ This analysis focuses on two locations: model testing case in the Sims Bayou, Ho
 Analysis Overview
 The code assimilates flood surface elevation or flood depth rasters downloaded from the FEMA flood map services database and digital elevation models, preprocessed in ArcMap to the spatial extent, resolution, and coordinate system necessary for the analysis. It then extrapolates flood surfaces beyond spatial flooding extent, and interpolates flood return periods for land surface elevations between two flood surface elevations. This analysis produces a raster of interpolated flood return periods over the spatial extent of the study area. All return periods more frequent than the lowest return period are rounded up. All return periods less frequent than the highest return period are determined to be beyond extrapolation range, resulting in NA values.
 
-FEMA data can be found here: https://msc.fema.gov/portal/advanceSearch
-
+FEMA flood data: https://msc.fema.gov/portal/advanceSearch
+Pennsylvania elevation data: http://www.pasda.psu.edu
+Texas elevation data: https://viewer.nationalmap.gov/basic/?basemap=b1&category=ned,nedsrc&title=3DEP%20View
