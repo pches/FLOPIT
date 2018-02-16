@@ -12,7 +12,7 @@ The code assimilates flood surface elevation or flood depth rasters downloaded f
 
 Key Plots
 
-![alt text](https://raw.githubusercontent.com/Joelroopeckart/PCHES-Flood-Interpolation/Figures/Muncy_figures/PCHES_Muncy_flood_interpolation_probmap.png)
+(https://raw.githubusercontent.com/Joelroopeckart/PCHES-Flood-Interpolation/Figures/Muncy_figures/PCHES_Muncy_flood_interpolation_probmap.png)
 
 
 Data Overview
