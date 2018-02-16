@@ -27,10 +27,10 @@ Accessed February 8th, 2018
 Texas elevation data: https://viewer.nationalmap.gov/basic/?basemap=b1&category=ned,nedsrc&title=3DEP%20View
 Accessed January 31st, 2018
 
-Texas elevation data used in the FEMA maps: 
-Discovery Report: Sims Bayou Watershed, HUC 12040104
-Published June 29th, 2015
-Accessed October 17st, 2017
+Texas elevation data used in the FEMA maps:                                                                                           
+Discovery Report: Sims Bayou Watershed, HUC 12040104                                                                                   
+Published June 29th, 2015                                                                                                              
+Accessed October 17st, 2017                                                                                                            
 2001 Lidar https://coast.noaa.gov/htdata/lidar1_z/geoid12a/data/102/2001_TX_Harris_metadata.html                                         
 Supplemented by 2008 Lidar: https://tnris.org/data-catalog/entry/houston-galveston-area-council-h-gac-2008-lidar/                       
 Accessed February 16th, 2018 (data not used in analysis presented here, plans to update analysis with this data are ongoing)            
