@@ -12,7 +12,7 @@ The code assimilates flood surface elevation or flood depth rasters downloaded f
 
 Key Plots
 
-![alt text](https://raw.githubusercontent.com/Joelroopeckart/PCHES-Flood-Interpolation/Figures/Muncy_figures/PCHES_Muncy_flood_interpolation_probmap.pdf)
+![alt text](https://raw.githubusercontent.com/Joelroopeckart/PCHES-Flood-Interpolation/Figures/Muncy_figures/PCHES_Muncy_flood_interpolation_probmap.png)
 
 
 Data Overview
@@ -32,6 +32,7 @@ Published June 29th, 2015
 Accessed October 17st, 2017
 2001 Lidar https://coast.noaa.gov/htdata/lidar1_z/geoid12a/data/102/2001_TX_Harris_metadata.html
 Suplimented by 2008 Lidar: https://tnris.org/data-catalog/entry/houston-galveston-area-council-h-gac-2008-lidar/
+
 Accessed February 16th, 2018 (data not used in analysis presented here, plans to update analysis with this data are ongoing)
 
 At time of access, all data was free to access (No licenses or paywalls).
