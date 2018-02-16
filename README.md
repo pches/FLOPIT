@@ -14,7 +14,7 @@ Key Plots
 
 (https://github.com/Joelroopeckart/PCHES-Flood-Interpolation/Figures/Muncy_figures/PCHES_Muncy_flood_interpolation_probmap.png)
 
-![Alt text](/PCHES-Flood-Interpolation/Figures/Muncy_figures/PCHES_Muncy_flood_interpolation_probmap.png)
+![Alt text](/Figures/Muncy_figures/PCHES_Muncy_flood_interpolation_probmap.png)
 
 Data Overview
 FEMA flood data: https://msc.fema.gov/portal/advanceSearch
