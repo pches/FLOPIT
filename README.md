@@ -12,9 +12,9 @@ The code assimilates flood surface elevation or flood depth rasters downloaded f
 
 Key Plots
 
-(https://github.com/Joelroopeckart/PCHES-Flood-Interpolation/Figures/Muncy_figures/PCHES_Muncy_flood_interpolation_probmap.png)
-
 ![Alt text](/Figures/Muncy_figures/PCHES_Muncy_flood_interpolation_probmap.png)
+In progress...
+Captions and more plots coming soon
 
 Data Overview
 FEMA flood data: https://msc.fema.gov/portal/advanceSearch
