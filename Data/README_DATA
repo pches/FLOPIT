@@ -1,1 +1,42 @@
+This readme file describes the data used and how to access it.
 
+FEMA flood data: https://msc.fema.gov/portal/advanceSearch 
+Muncy data accessed February 8th, 2018
+  Search "LYCOMING COUNTY ALL JURISDICTIONS"
+      Open "Flood Risk Products" folder
+          Open "Flood Risk Database folder"
+              Download "FRD_42081C_GeoTIFFS"
+Houston data accessed January 31st, 2018
+    Search "HARRIS COUNTY ALL JURISDICTIONS|48201C|HARRIS COUNTY|48201|TX|48"
+      Open "Flood Risk Products" folder
+          Open "Flood Risk Database folder"
+              Download "FRD_12040104_05_GeoTIFF"
+
+
+Pennsylvania elevation data: http://www.pasda.psu.edu Accessed February 8th, 2018
+Citation: Pennsylvania Department of Conservation and Natural Resources, 
+Bureau of Topographic and Geologic Survey PAMAP Program 3.2 ft Digital Elevation Model of Pennsylvania, 
+distributed by Pennsylvania Spatial Data Access, University Park, PA, 2006-2008, available online: http://www.pasda.psu.edu
+
+Texas elevation data used in this study: https://viewer.nationalmap.gov/basic/?basemap=b1&category=ned,nedsrc&title=3DEP%20View 
+Accessed January 31st, 2018
+Citation: U.S. Geological Survey, 2009, USGS NED ned19_n29x75_w095x50_tx_houstoncity_2008 1/9 arc-second 2009 15 x 15 minute 
+IMG: U.S. Geological Survey.
+
+Texas elevation data used in the FEMA maps:
+Discovery Report: Sims Bayou Watershed, HUC 12040104
+Published June 29th, 2015
+Accessed October 17st, 2017
+
+2001 Lidar https://coast.noaa.gov/htdata/lidar1_z/geoid12a/data/102/2001_TX_Harris_metadata.html
+Citation: National Oceanic and Atmospheric Administration (NOAA) Digital Coast Data Access Viewer. 
+Custom processing of "2001 HCFCD Lidar: Harris County (TX)". Charleston, SC: NOAA Office for Coastal Management. 
+Accessed Feb 16th, 2018 at https://coast.noaa.gov/dataviewer
+
+Supplemented by 2008 Lidar: https://tnris.org/data-catalog/entry/houston-galveston-area-council-h-gac-2008-lidar/
+Citation:  Houston-Galveston Area Council (H-GAC), 2008 Lidar, distributed by the Texas Natural Resources Information System
+Accessed Feb 16th, 2018 (data not used in analysis presented here, plans to update analysis with this data are ongoing)
+
+
+At time of access, all data was free to access (No licenses or paywalls), except the 2008 Houston Lidar, 
+which is availabe at cost of reproduction (and not used in this study).
