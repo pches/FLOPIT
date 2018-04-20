@@ -37,4 +37,6 @@ The code assimilates flood surface elevation or flood depth rasters downloaded f
 **Supplemented by 2008 Lidar:** [https://tnris.org/data-catalog/entry/houston-galveston-area-council-h-gac-2008-lidar/](https://tnris.org/data-catalog/entry/houston-galveston-area-council-h-gac-2008-lidar/)
 * Accessed February 16th, 2018 (data not used in analysis presented here, plans to update analysis with this data are ongoing)
 
+---
+
 *At time of access, all data was free to access (No licenses or paywalls).*

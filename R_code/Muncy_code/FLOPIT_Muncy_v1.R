@@ -16,29 +16,19 @@
 rm(list = ls())
 #dev.off()
 
-
 # load necessary packages
-#install.packages('raster')
 require('raster')
-#install.packages('rgdal')
 require('rgdal')
-#install.packages('sp')
 require('sp')
-#install.packages('FNN')
 require('FNN')
-#install.packages('dismo')
 require('dismo')
-#install.packages('deldir')
 require('deldir')
-#install.packages('rgeos')
 require('rgeos')
-#install.packages('RColorBrewer')
 require('RColorBrewer')
-#install.packages('scales')
 require('scales')
 
 # set working directory to a folder contain the R_code, Figures, and Data folders
-setwd('....')
+setwd('../..')
 
 ################ Import Houston Clipped and Resampled Raster files ###########################
 # be sure to change file paths
@@ -80,7 +70,7 @@ vals_02pct <- getValues(depth_02pct)+getValues(elev)
 wse_02pct <- setValues(depth_10pct, vals_02pct)
 
 ################ Aggregate rasters to lower resolutions #####################
-# rasters are too large for quick computation, aggregate by 20 times pixel width 
+# rasters are too large for quick computation, aggregate by 20 times pixel width
 # (from ~16.4x16.4 to ~ 328x328 feet cells)
 aggval <-20 # define aggregation size
 # aggregate the rasters
@@ -134,13 +124,13 @@ setValues(rt_map, NA)
 
 # define a vector vals to write interpolated flood return periods to
 vals <- vector(mode = 'numeric', length = length(rt_map@data@values))
-# for loop uses splines to define flood elevation to return period for each cell 
+# for loop uses splines to define flood elevation to return period for each cell
 # and interpolate the return period associated with each cell's elevation
 for (i in 1:length(rt_map@data@values)) {
   floods <- c(wse_10pct_interp@data@values[i],wse_2pct_interp@data@values[i],wse_1pct_interp@data@values[i],wse_02pct_interp@data@values[i])
-  floods <- sort(floods, decreasing = FALSE) # due to occasional error introduced by aggregation 
+  floods <- sort(floods, decreasing = FALSE) # due to occasional error introduced by aggregation
   # on steep slopes, smaller floods may produce higher WSE elevations for a single tile.
-  # While these errors reduce accuracy, sorting the floods allows the interpolation scheme to make a 
+  # While these errors reduce accuracy, sorting the floods allows the interpolation scheme to make a
   # realistic approximation or the relationship and finish the job
   vals[i] <- spline(floods,returns,xout = elev_agg@data@values[i], method = 'hyman')$y
 }
@@ -150,7 +140,7 @@ vals<-replace(vals,which(vals<min(returns)),min(returns))
 # return periods over 500 are extrapolating beyond the data, set them to NA
 vals<-replace(vals,which(vals>500),NA)
 
-# "hyman" method only gurantees monotonically increasing interpolation for all values within the 
+# "hyman" method only gurantees monotonically increasing interpolation for all values within the
 # data range. Replace all elevation values below the data range with lowest return period
 for(i in 1:length(vals)){
 vals[i]<-replace(vals[i],which(min(wse_10pct_interp[i],wse_2pct_interp[i],wse_1pct_interp[i],wse_02pct_interp[i])>elev_agg[i]),min(returns))
@@ -254,7 +244,7 @@ flood_dat[,1] <- bounds[-allnas]
 flood_dat[,2] <- vals[-allnas]
 colnames(flood_dat)<-as.character(c("FEMA_zones", "Interpolated_RTs"))
 
-# plot FEMA flood zone return periods vs FEMA calculated and interpolated return periods 
+# plot FEMA flood zone return periods vs FEMA calculated and interpolated return periods
 pdf("Figures/Muncy_figures/PCHES_zone_vs_interp_boxplot.pdf",width = 187*0.0393701, height = 187*(100/141)*0.0393701)
 boxplot(Interpolated_RTs~FEMA_zones, data = flood_dat, col = 'lightblue',
         xlab = "FEMA Flood Zones (Return Period)", ylab = "Interpolated Return Period", pch = 16)
@@ -262,13 +252,13 @@ dev.off()
 
 cols <- brewer.pal(3, 'Dark2')
 pdf("Figures/Muncy_figures/PCHES_zone_vs_interp_scatterplot.pdf",width = 187*0.0393701, height = 187*(100/141)*0.0393701)
-plot(flood_dat[,2], flood_dat[,1], ylab = "FEMA Flood Zone Return Period", 
+plot(flood_dat[,2], flood_dat[,1], ylab = "FEMA Flood Zone Return Period",
      xlab = "Interpolated Return Period", xlim = c(0, 500), ylim = c(0, 500), pch = 16, col = alpha('black', 0.5))
 points(1:500, 1:500, type = 'l', lwd = 3, col = 'blue')
 points(1:100,rep(100, 100), type = 'l', lwd = 3, col = 'red')
 points(101:500,rep(500, 400), type = 'l', lwd = 3, col = 'red')
 points(rep(100, 400),101:500, type = 'l', lwd = 3, col = 'red')
-legend('topleft', legend = c("Raster Cells", "1 to 1 Match", 'Flood Zones'), 
+legend('topleft', legend = c("Raster Cells", "1 to 1 Match", 'Flood Zones'),
        col = c('black', 'blue', 'red'), pch = c(16, NA, NA), lwd = c(NA, 2, 2), bg = 'white')
 dev.off()
 
@@ -283,8 +273,8 @@ print(c(round(mean(flood_dat[,2])), 'Average Interpolated flood return period'))
 pdf("figures/PCHES_Flood_Interpolation_Histogram.pdf",width = 187*0.0393701, height = 187*(100/141)*0.0393701)
 hist(flood_dat[,1], col = cols[1], breaks = 20, density = 10, freq = FALSE, main = '')
 hist(flood_dat[,2], col = cols[2], add = TRUE, breaks = 20, density = 10, freq = FALSE)
-legend('topright', legend = c("FEMA Zones", "Interpolated Return Periods"), 
-       col = c(cols[1],cols[2]), 
+legend('topright', legend = c("FEMA Zones", "Interpolated Return Periods"),
+       col = c(cols[1],cols[2]),
        pch = c(15, 15), lwd = c(NA, NA))
 dev.off()
 
@@ -331,35 +321,35 @@ cols <- brewer.pal(3, 'Dark2')
 pdf("Figures/Muncy_figures/PCHES_Muncy_generalhazard_plot.pdf",width = 187*0.0393701, height = 187*(100/141)*0.0393701)
 par(mfrow=c(2,2))
 # plot pdfs
-hist(vals, freq = FALSE, col = cols[1], ylim = c(0,0.05), xlim = c(0,500), breaks = 20, density = 0, 
+hist(vals, freq = FALSE, col = cols[1], ylim = c(0,0.05), xlim = c(0,500), breaks = 20, density = 0,
      main = '', xlab = 'Return period (yrs)', ylab = 'Density')
 par(new = TRUE)
 hist(bounds, freq = FALSE, col = cols[2], ylim = c(0,0.05), xlim = c(0,500), breaks = 20, density = 0,
      main = '', xlab = '', ylab = '', xaxt='n',yaxt='n')
 par(new=TRUE)
-plot(density(vals, na.rm = TRUE), ylim = c(0,0.05), xlim = c(0,500), col = cols[1], lwd = 2, 
+plot(density(vals, na.rm = TRUE), ylim = c(0,0.05), xlim = c(0,500), col = cols[1], lwd = 2,
      main = '', xlab = '', ylab = '', xaxt='n',yaxt='n')
 lines(density(bounds, na.rm = TRUE), ylim = c(0,0.05), xlim = c(0,500), col = cols[2], lwd = 2)
-legend('topright', legend = c("Interpolated", "FEMA"), 
-       col = c(cols[1],cols[2]), 
+legend('topright', legend = c("Interpolated", "FEMA"),
+       col = c(cols[1],cols[2]),
        pch = c(NA, NA), lwd = c(2,2))
 # plot cdfs
 plot(1:500,cdfvals, type = 'l', col = cols[1], lwd = 2, xlab = 'Return period (yrs)',
      ylab = 'Cumulative density')
 lines(cdfbounds, col = cols[2], lwd = 2)
-legend('bottomright', legend = c("Interpolated", "FEMA"), 
-       col = c(cols[1],cols[2]), 
+legend('bottomright', legend = c("Interpolated", "FEMA"),
+       col = c(cols[1],cols[2]),
        pch = c(NA, NA), lwd = c(2,2))
 # plot survival function
 plot(1:500,1-cdfvals, type = 'l', col = cols[1], lwd = 2, xlab = 'Return period (yrs)',
      ylab = '1-cdf (cumulative density)')
 lines(1-cdfbounds, col = cols[2], lwd = 2)
-legend('topright', legend = c("Interpolated", "FEMA"), 
-       col = c(cols[1],cols[2]), 
+legend('topright', legend = c("Interpolated", "FEMA"),
+       col = c(cols[1],cols[2]),
        pch = c(NA, NA), lwd = c(2,2))
 plot(density(-c(((flood_dat[,2]-flood_dat[,1])),
                ((FEMA_rt[intersect(arena1,notna1)]-500)),
-               ((interp_rt[intersect(arena2,notna2)]-500)))), xlab = 'Return period error (yrs)', 
+               ((interp_rt[intersect(arena2,notna2)]-500)))), xlab = 'Return period error (yrs)',
      main = '', ylab = 'Error Density')
 abline(v=0, col = 'green', lwd =2)
 legend('topleft', legend= c('Error density', '0 error line'), lwd = c(1,2), col = c('black', 'green'), bg = 'white')

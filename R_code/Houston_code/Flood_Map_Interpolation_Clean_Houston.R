@@ -17,58 +17,50 @@ rm(list = ls())
 #dev.off()
 
 # load necessary packages
-#install.packages('raster')
 require('raster')
-#install.packages('rgdal')
 require('rgdal')
-#install.packages('sp')
 require('sp')
-#install.packages('FNN')
 require('FNN')
-#install.packages('dismo')
 require('dismo')
-#install.packages('deldir')
 require('deldir')
-#install.packages('rgeos')
 require('rgeos')
-#install.packages('RColorBrewer')
 require('RColorBrewer')
 
 # set working directory
-setwd('C:/Users/kjr30/Desktop')
+setwd('../..')
 ################ Import Houston Clipped and Resampled Raster files ###########################
 # be sure to change file paths
 
 # import 10% annual chance flood WSE raster
-str_name <- 'C:/Users/kjr30/Desktop/Data/Houston_data/wse_10pct_clipped_resampled.tif'
+str_name <- 'Data/Houston_data/wse_10pct_clipped_resampled.tif'
 wse_10pct <- raster(str_name)
 
-# import 4% annual chance flood WSE raster 
+# import 4% annual chance flood WSE raster
 # (NOTE: Due to data quality concerns, this raster is not used)
 
 # import 2% annual chance flood WSE raster
-str_name <- 'C:/Users/kjr30/Desktop/Data/Houston_data/wse_2pct_clipped_resampled.tif'
+str_name <- 'Data/Houston_data/wse_2pct_clipped_resampled.tif'
 wse_2pct <- raster(str_name)
 
 # import 1% annual chance flood WSE raster
-str_name <- 'C:/Users/kjr30/Desktop/Data/Houston_data/wse_1pct_clipped_resampled.tif'
+str_name <- 'Data/Houston_data/wse_1pct_clipped_resampled.tif'
 wse_1pct <- raster(str_name)
 
 # import 0.2% annual chance flood WSE raster
-str_name <- 'C:/Users/kjr30/Desktop/Data/Houston_data/wse_02pct_clipped_resampled.tif'
+str_name <- 'Data/Houston_data/wse_02pct_clipped_resampled.tif'
 wse_02pct <- raster(str_name)
 
 # import Lidar DEM of the study area of Houston
-str_name <- 'C:/Users/kjr30/Desktop/Data/Houston_data/ned19_n29x75_w095x50_tx_houstoncity_2008_clipped_feet.tif'
+str_name <- 'Data/Houston_data/ned19_n29x75_w095x50_tx_houstoncity_2008_clipped_feet.tif'
 elev <- raster(str_name)
 
 # import FEMA calculated annual percent flood chance raster
-str_name <- 'C:/Users/kjr30/Desktop/Data/Houston_data/pctannchance_clipped_resampled.tif'
+str_name <- 'Data/Houston_data/pctannchance_clipped_resampled.tif'
 prob_map_orig <- raster(str_name)
 
 ################ Extrapolating to missing values #####################
 
-# rasters are too large for quick computation, aggregate by 5 times pixel width 
+# rasters are too large for quick computation, aggregate by 5 times pixel width
 # (from ~10x10 to ~ 50x50 feet)
 aggval <-5 # define aggregation size
 # aggregate the rasters
@@ -119,7 +111,7 @@ setValues(rt_map, NA)
 
 # define a vector vals to write interpolated flood return periods to
 vals <- vector(mode = 'numeric', length = length(rt_map@data@values))
-# for loop uses splines to define flood elevation to return period for each cell 
+# for loop uses splines to define flood elevation to return period for each cell
 # and interpolate the return period associated with each cell's elevation
 for (i in 1:length(rt_map@data@values)) {
   floods <- c(wse_10pct_interp@data@values[i],wse_2pct_interp@data@values[i],wse_1pct_interp@data@values[i],wse_02pct_interp@data@values[i])
@@ -131,7 +123,7 @@ vals<-replace(vals,which(vals<min(returns)),min(returns))
 # return periods over 500 are extrapolating beyond the data, set them to NA
 vals<-replace(vals,which(vals>500),NA)
 
-# "hyman" method only gurantees monotonically increasing interpolation for all values within the 
+# "hyman" method only gurantees monotonically increasing interpolation for all values within the
 # data range. Replace all elevation values below the data range with lowest return period
 for(i in 1:length(vals)){
   vals[i]<-replace(vals[i],which(min(wse_10pct_interp[i],wse_2pct_interp[i],wse_1pct_interp[i],wse_02pct_interp[i])>elev_agg[i]),min(returns))
@@ -154,7 +146,7 @@ setValues(rt_map_loess, NA)
 
 # define a vector vals to write interpolated flood return periods to
 vals_loess <- vector(mode = 'numeric', length = length(rt_map_loess@data@values))
-# for loop uses splines to define flood elevation to return period for each cell 
+# for loop uses splines to define flood elevation to return period for each cell
 # and interpolate the return period associated with each cell's elevation
 for (i in 1:length(rt_map_loess@data@values)) {
   floods <- c(wse_10pct_interp@data@values[i],wse_2pct_interp@data@values[i],wse_1pct_interp@data@values[i],wse_02pct_interp@data@values[i])
@@ -167,7 +159,7 @@ vals_loess<-replace(vals_loess,which(vals_loess<min(returns)),min(returns))
 # return periods over 500 are extrapolating beyond the data, set them to NA
 vals_loess<-replace(vals_loess,which(vals_loess>500),NA)
 
-# "hyman" method only gurantees monotonically increasing interpolation for all values within the 
+# "hyman" method only gurantees monotonically increasing interpolation for all values within the
 # data range. Replace all elevation values below the data range with lowest return period
 for(i in 1:length(vals_loess)){
   vals_loess[i]<-replace(vals_loess[i],which(min(wse_10pct_interp[i],wse_2pct_interp[i],wse_1pct_interp[i],wse_02pct_interp[i])>elev_agg[i]),min(returns))
@@ -189,7 +181,7 @@ setValues(rt_map_miss, NA)
 
 # define a vector vals to write interpolated flood return periods to
 vals_miss <- vector(mode = 'numeric', length = length(rt_map_miss@data@values))
-# for loop uses splines to define flood elevation to return period for each cell 
+# for loop uses splines to define flood elevation to return period for each cell
 # and interpolate the return period associated with each cell's elevation
 for (i in 1:length(rt_map_miss@data@values)) {
   floods_miss <- c(wse_10pct_interp@data@values[i],wse_1pct_interp@data@values[i],wse_02pct_interp@data@values[i])
@@ -201,7 +193,7 @@ vals_miss<-replace(vals_miss,which(vals_miss<min(returns_miss)),min(returns_miss
 # return periods over 500 are extrapolating beyond the data, set them to NA
 vals_miss<-replace(vals_miss,which(vals_miss>500),NA)
 
-# "hyman" method only gurantees monotonically increasing interpolation for all values within the 
+# "hyman" method only gurantees monotonically increasing interpolation for all values within the
 # data range. Replace all elevation values below the data range with lowest return period
 for(i in 1:length(vals_miss)){
   vals_miss[i]<-replace(vals_miss[i],which(min(wse_10pct_interp[i],wse_1pct_interp[i],wse_02pct_interp[i])>elev_agg[i]),min(returns_miss))
@@ -366,7 +358,7 @@ dev.off()
 ########### plot of how interpolated flood probabilities land in FEMA flood zones #############
 # this is a work in progress, but you may find it interesting
 
-# Figure 1 and 2: 
+# Figure 1 and 2:
 # Plot of interpolated flood probabilities vs FEMA flood zone
 # Plot of interpolated flood probabilities vs FEMA calculated flood probabilities
 
@@ -390,7 +382,7 @@ flood_dat[,2] <- returnperiods[-allnas]
 flood_dat[,3] <- vals[-allnas]
 colnames(flood_dat)<-as.character(c("FEMA_zones", "FEMA_RTs", "Interpolated_RTs"))
 
-# plot FEMA flood zone return periods vs FEMA calculated and interpolated return periods 
+# plot FEMA flood zone return periods vs FEMA calculated and interpolated return periods
 
 #
 pdf("Figures/Houston_figures/PCHES_zone_vs_interp_boxplot_control.pdf",width = 187*0.0393701, height = 187*(100/141)*0.0393701)
@@ -406,32 +398,32 @@ dev.off()
 
 # replace figure
 pdf("Figures/Houston_figures/PCHES_zone_vs_interp_scatterplot_control.pdf",width = 187*0.0393701, height = 187*(100/141)*0.0393701)
-plot(flood_dat[,1], flood_dat[,3], xlab = "FEMA Flood Zone Return Period", 
+plot(flood_dat[,1], flood_dat[,3], xlab = "FEMA Flood Zone Return Period",
      ylab = "Interpolated Return Period", xlim = c(0, 500), ylim = c(0, 500), pch = 16)
 points(1:500, 1:500, type = 'l', lwd = 3, col = 'green')
-legend('topleft', legend = c("Raster Cells", "1 to 1 Match"), col = c('black', 'green'), 
+legend('topleft', legend = c("Raster Cells", "1 to 1 Match"), col = c('black', 'green'),
        pch = c(16, NA), lwd = c(NA, 2))
 dev.off()
 
 # plot FEMA calculated flood return periods vs interpolated flood return periods
 pdf("Figures/Houston_figures/PCHES_FEMAcalc_vs_interp_scatterplot_control.pdf",width = 187*0.0393701, height = 187*(100/141)*0.0393701)
-plot(flood_dat[,2], flood_dat[,3], xlab = "FEMA Calculated Return Period", 
+plot(flood_dat[,2], flood_dat[,3], xlab = "FEMA Calculated Return Period",
      ylab = "Interpolated Return Period", xlim = c(0, 500), ylim = c(0, 500), pch = 16)
 points(1:500, 1:500, type = 'l', lwd = 3, col = 'green')
-legend('topleft', legend = c("Raster Cells", "1 to 1 Match"), col = c('black', 'green'), 
+legend('topleft', legend = c("Raster Cells", "1 to 1 Match"), col = c('black', 'green'),
        pch = c(16, NA), lwd = c(NA, 2))
 dev.off()
-# if the interpolation method performed in 
+# if the interpolation method performed in
 # this script recreates FEMA estimated probabilities, plotted points should land on the green 1 to 1 line
-# if there is no bias in the itnerpolation method performed here, points should roughly follow the 
+# if there is no bias in the itnerpolation method performed here, points should roughly follow the
 # 1 to 1 line.
 pdf("Figures/Houston_figures/PCHES_FEMAcalc_vs_interp_smoothscatterplot_control.pdf",width = 187*0.0393701, height = 187*(100/141)*0.0393701)
-smoothScatter(flood_dat[,2], flood_dat[,3], xlab = "FEMA Calculated Return Period", 
+smoothScatter(flood_dat[,2], flood_dat[,3], xlab = "FEMA Calculated Return Period",
               ylab = "Interpolated Return Period", xlim = c(0, 500), ylim = c(0, 500), pch = 16,
               colramp = colorRampPalette(c('white', 'red')), nrpoints = 100)
 points(1:500, 1:500, type = 'l', lwd = 3, col = 'black')
-legend('topleft', legend = c("Outlier Raster Cells", "Raster Cell Density", "1 to 1 Match"), 
-       col = c('black', 'red','black'), 
+legend('topleft', legend = c("Outlier Raster Cells", "Raster Cell Density", "1 to 1 Match"),
+       col = c('black', 'red','black'),
        pch = c(16,15, NA), lwd = c(NA, NA, 2))
 dev.off()
 ############ Goodness of fit analysis and more plots ########################
@@ -489,7 +481,7 @@ sum(committed_vals==0) # 0 commissions in the 1yr zone (general WSE)
 
 # by ommission and commission, FEMA flood return period map is more accurate
 
-# commission and omission are determined by the match between the DEM used for interpolation and 
+# commission and omission are determined by the match between the DEM used for interpolation and
 # the DEM used for original flood modeling and interpolation scheme (spline vs loess, etc)
 
 ########################### Root Mean Square Error and more plots ###################################
@@ -559,7 +551,7 @@ notna8 <- c(unique.numeric_version(c(which(is.nan(interp_rt_loess)==FALSE & is.n
 # list of values interpolation should not have included
 
 # root mean square error, accounting for omission and commission errors for interpolation with missing data
-rmse_interp_loess <- sqrt(mean((c(((returnperiods[-unique(c(which(is.na(interp_rt_loess)==TRUE), 
+rmse_interp_loess <- sqrt(mean((c(((returnperiods[-unique(c(which(is.na(interp_rt_loess)==TRUE),
                                  which(is.na(returnperiods)==TRUE)))]-
                                    interp_rt_loess[-unique(c(which(is.na(interp_rt_loess)==TRUE),
                                    which(is.na(returnperiods)==TRUE)))])^2),
@@ -589,42 +581,42 @@ cols <- brewer.pal(3, 'Dark2')
 pdf("Figures/Houston_figures/PCHES_Houston_generalhazard_plot.pdf",width = 8.9/2.54, height = 24/2.54)
 par(mfrow=c(4,1))
 # plot pdfs
-hist(vals, freq = FALSE, col = cols[1], ylim = c(0,0.05), xlim = c(0,500), breaks = 20, density = 0, 
+hist(vals, freq = FALSE, col = cols[1], ylim = c(0,0.05), xlim = c(0,500), breaks = 20, density = 0,
      main = '', xlab = 'Return period (yrs)', ylab = 'Density')
 par(new = TRUE)
 hist(bounds, freq = FALSE, col = cols[2], ylim = c(0,0.05), xlim = c(0,500), breaks = 20, density = 0,
      main = '', xlab = '', ylab = '', xaxt='n',yaxt='n')
 par(new=TRUE)
-hist(returnperiods, freq = FALSE, col = cols[3], ylim = c(0,0.05), xlim = c(0,500), breaks = 20, density = 0, 
+hist(returnperiods, freq = FALSE, col = cols[3], ylim = c(0,0.05), xlim = c(0,500), breaks = 20, density = 0,
      main = '', xlab = '', ylab = '')
 par(new=TRUE)
-plot(density(vals, na.rm = TRUE), ylim = c(0,0.05), xlim = c(0,500), col = cols[1], lwd = 2, 
+plot(density(vals, na.rm = TRUE), ylim = c(0,0.05), xlim = c(0,500), col = cols[1], lwd = 2,
      main = '', xlab = '', ylab = '', xaxt='n',yaxt='n')
 lines(density(bounds, na.rm = TRUE), ylim = c(0,0.05), xlim = c(0,500), col = cols[2], lwd = 2)
 lines(density(returnperiods, na.rm = TRUE), ylim = c(0,0.05), xlim = c(0,500), col = cols[3], lwd = 2)
-legend('topleft', legend = c("Interpolated", "FEMA Zones", 'FEMA Return Periods'), 
-       col = c(cols[1],cols[2],cols[3]), 
+legend('topleft', legend = c("Interpolated", "FEMA Zones", 'FEMA Return Periods'),
+       col = c(cols[1],cols[2],cols[3]),
        pch = c(NA, NA,NA), lwd = c(2,2,2), bg = 'white', cex = 1)
 # plot cdfs
 plot(1:500,cdfvals, type = 'l', col = cols[1], lwd = 2, xlab = 'Return period (yrs)',
      ylab = 'Cumulative density')
 lines(cdfbounds, col = cols[2], lwd = 2)
 lines(cdffemart, col = cols[3], lwd = 2)
-legend('topleft', legend = c("Interpolated", "FEMA Zones", 'FEMA Return Periods'), 
-       col = c(cols[1],cols[2],cols[3]), 
+legend('topleft', legend = c("Interpolated", "FEMA Zones", 'FEMA Return Periods'),
+       col = c(cols[1],cols[2],cols[3]),
        pch = c(NA, NA, NA), lwd = c(2,2,2), bg = 'white', cex = 1)
 # plot survival function
 plot(1:500,1-cdfvals, type = 'l', col = cols[1], lwd = 2, xlab = 'Return period (yrs)',
      ylab = '1-cdf (cumulative density)')
 lines(1-cdfbounds, col = cols[2], lwd = 2)
 lines(1-cdffemart, col = cols[3], lwd = 2)
-legend('bottomleft', legend = c("Interpolated", "FEMA Zones", 'FEMA Return Periods'), 
-       col = c(cols[1],cols[2], cols[3]), 
+legend('bottomleft', legend = c("Interpolated", "FEMA Zones", 'FEMA Return Periods'),
+       col = c(cols[1],cols[2], cols[3]),
        pch = c(NA, NA, NA), lwd = c(2,2,2), bg = 'white', cex = 1)
 # plot error
 plot(density(-c(((flood_dat[,2]-flood_dat[,3])),
                ((FEMA_rt[intersect(arena1,notna1)]-500)),
-               ((interp_rt[intersect(arena2,notna2)]-500)))), xlab = 'Return period error (yrs)', 
+               ((interp_rt[intersect(arena2,notna2)]-500)))), xlab = 'Return period error (yrs)',
      main = '', ylab = 'Error Density', col = cols[1], lwd = 2)
 lines(density(-c(((flood_dat[,2]-interp_rt_miss[-allnas])),
                  ((FEMA_rt[intersect(arena1,notna1)]-500)),
@@ -634,8 +626,8 @@ lines(density(-c(((flood_dat[,2]-flood_dat[,1])),
                 ((FEMA_rt[intersect(arena4,notna4)]-500)))), col = cols[2], lwd = 2)
 
 abline(v=0, col = 'black', lwd =1)
-legend('topright', legend= c('Interpolation scheme', 'FEMA Zones', 'Interpolation missing data', 
-                            'Ideal interpolation'), lwd = c(2,2,2,1), col = c(cols[1], cols[2], 
+legend('topright', legend= c('Interpolation scheme', 'FEMA Zones', 'Interpolation missing data',
+                            'Ideal interpolation'), lwd = c(2,2,2,1), col = c(cols[1], cols[2],
                              cols[3],'black', 'green'), bg = 'white', cex = 1)
 dev.off()
 
@@ -645,26 +637,26 @@ pdf("Figures/Houston_figures/PCHES_Houston_generalhazard_modelcomp_plot.pdf",wid
 par(mfrow=c(4,1))
 
 # plot pdfs
-hist(vals, freq = FALSE, col = cols[1], ylim = c(0,0.015), xlim = c(0,500), breaks = 20, density = 0, 
+hist(vals, freq = FALSE, col = cols[1], ylim = c(0,0.015), xlim = c(0,500), breaks = 20, density = 0,
      main = '', xlab = 'Return period (yrs)', ylab = 'Density')
 par(new = TRUE)
 hist(vals_miss, freq = FALSE, col = cols[4], ylim = c(0,0.015), xlim = c(0,500), breaks = 20, density = 0,
      main = '', xlab = '', ylab = '', xaxt='n',yaxt='n')
 par(new=TRUE)
-hist(returnperiods, freq = FALSE, col = cols[3], ylim = c(0,0.015), xlim = c(0,500), breaks = 20, density = 0, 
+hist(returnperiods, freq = FALSE, col = cols[3], ylim = c(0,0.015), xlim = c(0,500), breaks = 20, density = 0,
      main = '', xlab = '', ylab = '')
 par(new=TRUE)
-hist(vals_loess, freq = FALSE, col = cols[5], ylim = c(0,0.015), xlim = c(0,500), breaks = 20, density = 0, 
+hist(vals_loess, freq = FALSE, col = cols[5], ylim = c(0,0.015), xlim = c(0,500), breaks = 20, density = 0,
      main = '', xlab = '', ylab = '')
 par(new=TRUE)
-plot(density(vals, na.rm = TRUE), ylim = c(0,0.05), xlim = c(0,500), col = cols[1], lwd = 2, 
+plot(density(vals, na.rm = TRUE), ylim = c(0,0.05), xlim = c(0,500), col = cols[1], lwd = 2,
      main = '', xlab = '', ylab = '', xaxt='n',yaxt='n')
 lines(density(vals_miss, na.rm = TRUE), ylim = c(0,0.05), xlim = c(0,500), col = cols[4], lwd = 2)
 lines(density(vals_loess, na.rm = TRUE), ylim = c(0,0.05), xlim = c(0,500), col = cols[5], lwd = 2)
 lines(density(returnperiods, na.rm = TRUE), ylim = c(0,0.05), xlim = c(0,500), col = cols[3], lwd = 2)
-legend('topright', legend = c("Interpolated", "Interpolated (missing data)", "Interpolated (loess)", 
+legend('topright', legend = c("Interpolated", "Interpolated (missing data)", "Interpolated (loess)",
                               'FEMA Return Periods'), bg = 'white',
-       col = c(cols[1],cols[5],cols[4],cols[3]), 
+       col = c(cols[1],cols[5],cols[4],cols[3]),
        pch = c(NA, NA,NA,NA,NA), lwd = c(2,2,2,2,2), cex = 1)
 
 # plot cdfs
@@ -672,9 +664,9 @@ plot(1:500,cdfvals, type = 'l', col = cols[1], lwd = 2, xlab = 'Return period (y
      ylab = 'Cumulative density')
 lines(cdfbounds, col = cols[2], lwd = 2)
 lines(cdffemart, col = cols[3], lwd = 2)
-legend('topright', legend = c("Interpolated", "Interpolated (missing data)", "Interpolated (loess)", 
+legend('topright', legend = c("Interpolated", "Interpolated (missing data)", "Interpolated (loess)",
                               'FEMA Return Periods'), bg = 'white',
-       col = c(cols[1],cols[5],cols[4],cols[3]), 
+       col = c(cols[1],cols[5],cols[4],cols[3]),
        pch = c(NA, NA,NA,NA,NA), lwd = c(2,2,2,2,2), cex = 1)
 # plot survival function
 plot(1:500,1-cdfvals, type = 'l', col = cols[1], lwd = 2, xlab = 'Return period (yrs)',
@@ -683,19 +675,19 @@ plot(1:500,1-cdfvals, type = 'l', col = cols[1], lwd = 2, xlab = 'Return period 
 lines(1-cdffemart, col = cols[3], lwd = 2)
 lines(1-cdfvals_miss, col = cols[5], lwd = 2)
 lines(1-cdfvals_loess, col = cols[4], lwd = 2)
-legend('topright', legend = c("Interpolated", "Interpolated (missing data)", "Interpolated (loess)", 
+legend('topright', legend = c("Interpolated", "Interpolated (missing data)", "Interpolated (loess)",
                               'FEMA Return Periods'), bg = 'white',
-       col = c(cols[1],cols[5],cols[4],cols[3]), 
+       col = c(cols[1],cols[5],cols[4],cols[3]),
        pch = c(NA, NA,NA,NA,NA), lwd = c(2,2,2,2,2), cex = 1)
 # plot error
 plot(density(-c(((flood_dat[,2]-flood_dat[,3])),
                 ((FEMA_rt[intersect(arena1,notna1)]-500)),
-                ((interp_rt[intersect(arena2,notna2)]-500)))), xlab = 'Return period error (yrs)', 
+                ((interp_rt[intersect(arena2,notna2)]-500)))), xlab = 'Return period error (yrs)',
      main = '', ylab = 'Error Density', col = cols[1], lwd = 2)
 lines(density(-c(((flood_dat[,2]-interp_rt_miss[-allnas])),
                  ((FEMA_rt[intersect(arena1,notna1)]-500)),
                  ((interp_rt_miss[intersect(arena2,notna2)]-500)))), col = cols[3], lwd = 2)
-lines(density(-c(((returnperiods[-unique(c(which(is.na(interp_rt_loess)==TRUE), 
+lines(density(-c(((returnperiods[-unique(c(which(is.na(interp_rt_loess)==TRUE),
                                            which(is.na(returnperiods)==TRUE)))]-
                      interp_rt_loess[-unique(c(which(is.na(interp_rt_loess)==TRUE),
                                                which(is.na(returnperiods)==TRUE)))])),
@@ -703,8 +695,8 @@ lines(density(-c(((returnperiods[-unique(c(which(is.na(interp_rt_loess)==TRUE),
                  ((interp_rt_loess[intersect(arena8,notna8)]-500)))), col = cols[5], lwd = 2)
 
 abline(v=0, col = 'black', lwd =2)
-legend('topright', legend = c("Interpolated", "Interpolated (missing data)", "Interpolated (loess)", 
+legend('topright', legend = c("Interpolated", "Interpolated (missing data)", "Interpolated (loess)",
                               'FEMA Return Periods'), bg = 'white',
-       col = c(cols[1],cols[5],cols[4],cols[3]), 
+       col = c(cols[1],cols[5],cols[4],cols[3]),
        pch = c(NA, NA,NA,NA,NA), lwd = c(2,2,2,2,2), cex = 1)
 dev.off()
