@@ -10,6 +10,30 @@ This document contains code for interpolating inundation return periods for parc
 
 The code assimilates flood surface elevation or flood depth rasters downloaded from the FEMA flood map services database and digital elevation models, preprocessed in ArcMap to the spatial extent, resolution, and coordinate system necessary for the analysis. It then extrapolates flood surfaces beyond spatial flooding extent, and interpolates inundation return periods for land surface elevations between two flood surface elevations. This analysis produces a raster of interpolated flood return periods over the spatial extent of the study area. All return periods more frequent than the lowest return period are rounded up. All return periods less frequent than the highest return period are determined to be beyond extrapolation range, resulting in NA values.
 
+## Viability at Potential Locations
+
+FLOPIT cannot provide interpolations for areas without FEMA flood water surface elevation or flood depth rasters. These data are not  published on the FEMA flood map service center for every location. As such, FLOPIT is currently restricted by data availability. The following is a non-exhaustive list of locations and FLOPIT's viability at each.
+
+The following cities have the necessary data for FLOPIT.
+Houston, TX
+Muncy, PA
+FLOPIT works in both locations.
+
+FEMA has not published the necessary flood water surface elevation or flood water depth rasters for a FLOPIT analysis for the following cities.
+Sellinsgrove, PA
+Lewisburg, PA
+Tampa, FL
+St. Petersburg, FL
+Washington, D.C.
+San Francisco, CA
+Boston, MA
+Baltimore, MD
+New York, NY
+
+FLOPIT currently (June 4th, 2018) requires either flood water surface elevation or flood water depth rasters of varying return period floods, typically the 500 year, 100 year, 50 year, and 10 year floods. FEMA publishes these data for some locations but not all.
+
+The National Flood Hazard Layer (NFHL), which is published for all the aforementioned cities, includes the spatial extent of the 100 year and 500 year flood zones. If one were to extract the terrain elevation at the edges of each flood zone, one could potentially extrapolate water surface elevations for the 100 year and 500 year floods. These flood elevations, combined with a mean water surface elevation, could be used to interpolation flood probabilities in FLOPIT. This approach is fraut with extrapolation difficulties and is a work in progress.
+
 ## Run Instructions
 
 To reproduce this analysis:
