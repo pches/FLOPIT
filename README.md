@@ -19,6 +19,12 @@ Houston, TX
 Muncy, PA
 FLOPIT works in both locations.
 
+The geotiff water surface elevation rasters for the 100 year, 1 percent chance, flood are also available at the following locations, however this is not enough data for interpolation.
+Los Angeles, CA
+Norfolk, VA
+Pittsburgh, PA
+
+
 FEMA has not published the necessary flood water surface elevation or flood water depth rasters for a FLOPIT analysis for the following cities.
 Sellinsgrove, PA
 Lewisburg, PA
