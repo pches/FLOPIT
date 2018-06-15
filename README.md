@@ -15,6 +15,7 @@ The code assimilates flood surface elevation or flood depth rasters downloaded f
 FLOPIT cannot provide interpolations for areas without FEMA flood water surface elevation or flood depth rasters. These data are not  published on the FEMA flood map service center for every location. As such, FLOPIT is currently restricted by data availability. The following is a non-exhaustive list of locations and FLOPIT's viability at each.
 
 The following cities have the necessary data for FLOPIT.
+
 Houston, TX
 Muncy, PA
 FLOPIT works in both locations.
@@ -26,11 +27,11 @@ Los Angeles, CA
 The geotiff water surface elevation rasters for the 100 year, 1 percent chance, flood are also available at the following locations, however this is not enough data for interpolation.
 
 Norfolk, VA
-
 Pittsburgh, PA
 
 
 FEMA has not published the necessary flood water surface elevation or flood water depth rasters for a FLOPIT analysis for the following cities.
+
 Sellinsgrove, PA
 Lewisburg, PA
 Tampa, FL
