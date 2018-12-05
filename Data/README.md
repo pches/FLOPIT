@@ -12,6 +12,16 @@ This file describes the data used and how to access it.
 
 *Accessed February 8th, 2018*
 
+### Selinsgrove Data
+
+1. Go to [https://msc.fema.gov/portal/advanceSearch](https://msc.fema.gov/portal/advanceSearch)
+1. Search "SNYDER COUNTY ALL JURISDICTIONS"
+1. Open "Flood Risk Products" folder
+1. Open "Flood Risk Database folder"
+1. Download "FRD_42081C_GeoTIFFS"
+
+*Accessed August 30th, 2018*
+
 ### Houston Data
 
 1. Go to [https://msc.fema.gov/portal/advanceSearch](https://msc.fema.gov/portal/advanceSearch)
