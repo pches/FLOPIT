@@ -18,7 +18,7 @@ This file describes the data used and how to access it.
 1. Search "SNYDER COUNTY ALL JURISDICTIONS"
 1. Open "Flood Risk Products" folder
 1. Open "Flood Risk Database folder"
-1. Download "FRD_42081C_GeoTIFFS"
+1. Download "FRD_Wyoming_Valley_GeoDatabase"
 
 *Accessed August 30th, 2018*
 
