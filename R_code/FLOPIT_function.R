@@ -79,12 +79,12 @@ gridded(flood_raster_grid) = TRUE
 # define function
 IWD_interp <- function(raster,grid){
     raster_points <- rasterToPoints(raster, spatial = TRUE)
-    raster_gstat <- gstat(formula = rasterdata ~ 1, 
+    raster.gstat <- gstat(formula = rasterdata ~ 1, 
                           data = raster_points, 
                           nmax = 10, # for local kriging: the number of nearest observations that should be used for a kriging prediction or simulation
                           set = list(idp = 0.5)
                           )
-    z <- predict(rast_gstat, grid)
+    z <- predict(raster.gstat, grid)
     raster@data@values <- z@data[,1]
     return(raster)
   }
@@ -105,70 +105,113 @@ print('Done with smooting water surface elevation')
 
 ######################### Interpolate flood probability map
 # use pre-existing raster to create new raster of same cell size, extent, projection, etc.
-rt_map <- dem_upscaled
+flopit_interpolated_raster <- dem_upscaled
 # set all values of the new raster to be NA
-setValues(rt_map, NA)
-# define a vector vals to write interpolated flood return periods to
-vals <- vector(mode = 'numeric', length = length(rt_map@data@values))
+setValues(flopit_interpolated_raster, NA)
+# create a vector to write interpolated flood return periods to (values are not assigned yet)
+flopit_interpolated_rp_vec <- vector(mode = 'numeric', length = length(flopit_interpolated_raster@data@values))
+
 # for loop uses splines to define flood elevation to return period for each cell
 # and interpolate the return period associated with each cell's elevation
-elevations <- getValues(dem_upscaled)
-pb <- txtProgressBar(min = 0, max = length(getValues(rt_map)), initial = 0, char = '=', style = 1)
+ground_elevations <- getValues(dem_upscaled)
+n_points <- length(flopit_interpolated_raster@data@values)
+
+
+# For monitoring the progress
+pb <- txtProgressBar(min = 0, max = length(getValues(flopit_interpolated_raster)), initial = 0, char = '=', style = 1)
 start <- Sys.time()
-floods <- vector(length = n_rp)
-for (i in 1:length(rt_map@data@values)) {
+
+for (i in 1:n_points){
+  
+  # monitor the progress 
   setTxtProgressBar(pb, i)
-  for (j in 1:n_rp) {floods[j] <- returnLevels_wse_smooth[[j]]@data@values[i]}
-  floods <- sort(floods, decreasing = FALSE) # due to occasional error introduced by aggregation, 
+  
+  # start the vector that contains the water surface evelations in this point 
+  cell_wse <- vector(length = n_rp)
+  for (j in 1:n_rp) {
+    cell_wse[j] <- returnLevels_wse_smooth[[j]]@data@values[i]
+  }
+  
+  cell_wse <- sort(cell_wse, decreasing = FALSE) # due to occasional error introduced by aggregation, 
   # on steep slopes, smaller floods may produce higher WSE elevations for a single tile due to aggregation.
   # While these errors reduce accuracy, sorting the floods allows the interpolation scheme to make a
   # realistic approximation or the relationship and finish the job
-  if(method == 'log-linear')(vals[i] <- 1/((10^((
-    (elevations[i]-max(floods[which(floods<elevations[i])]))*
-      
-      (log10(max(probs_pct[which(floods>elevations[i])]))-log10(min(probs_pct[which(floods<elevations[i])])))/
-      
-      (min(floods[which(floods>elevations[i])])-max(floods[which(floods<elevations[i])]))
+  
+  if(method == 'log-linear'){ # official FEMA log-linear interpolation formula
+        denom1 <- 10^((
+          (ground_elevations[i]-max(cell_wse[which(cell_wse<ground_elevations[i])]))*
+            (log10(max(probs_pct[which(cell_wse>ground_elevations[i])]))-log10(min(probs_pct[which(cell_wse<ground_elevations[i])])))/
+            (min(cell_wse[which(cell_wse>ground_elevations[i])])-max(cell_wse[which(cell_wse<ground_elevations[i])]))
+        )+log10(min(probs_pct[which(cell_wse<ground_elevations[i])])))
+        denom1 <- denom1/100 
+        flopit_interpolated_rp_vec[i] <- 1/ denom
+        
+  }else if(method == 'spline'){
     
-  )+log10(min(probs_pct[which(floods<elevations[i])]))))/100)) # official FEMA log-linear interpolation formula
-  else if(method == 'spline')(vals[i] <- spline(floods,return_periods,xout = elevations[i], method = 'hyman')$y)
+        flopit_interpolated_rp_vec[i] <- spline(cell_wse,return_periods,xout = ground_elevations[i], method = 'hyman')$y
+  }
 }
+
+# finish progress monitoring
 close(pb)
 end <- Sys.time()
 end-start
 
 ######################### Post process interpolated flood probability data
 # return periods cannot be negative, replace negative return period with the minimum return period in the range
-vals<-replace(vals,which(vals<min(return_periods)),min(return_periods))
+flopit_interpolated_rp_vec <- replace(
+                                      flopit_interpolated_rp_vec,
+                                      which(flopit_interpolated_rp_vec < min(return_periods)),
+                                      min(return_periods))
+
 # return periods over 500 are extrapolating beyond the data, set them to NA
-vals<-replace(vals,which(vals>max(return_periods)),NA)
+flopit_interpolated_rp_vec <- replace(
+                                      flopit_interpolated_rp_vec,
+                                      which(flopit_interpolated_rp_vec > max(return_periods)),
+                                      NA)
+
 # if the wse of the largest flood is less than the elevation, set the pixel value to NA.
-vals<-replace(vals, which(getValues(returnLevels_wse_smooth[[n_rp]])<getValues(dem_upscaled)), NA)
+flopit_interpolated_rp_vec <- replace(
+                                      flopit_interpolated_rp_vec, 
+                                      which(getValues(returnLevels_wse_smooth[[n_rp]]) < getValues(dem_upscaled)), 
+                                      NA)
+
 # if the wse of the a flood is greater than the elevation, and the return period is NA, 
 # set the pixel value to the return period of that flood.
-
 for (i in 1:n_rp) {
-  vals<-replace(vals, intersect(which(getValues(returnLevels_wse_smooth[[i]])>getValues(dem_upscaled)), which(is.na(vals)==TRUE)), return_periods[i])
+      flopit_interpolated_rp_vec <- replace(flopit_interpolated_rp_vec, 
+                                        intersect(
+                                                  which(getValues(returnLevels_wse_smooth[[i]]) > getValues(dem_upscaled)), 
+                                                  which(is.na(flopit_interpolated_rp_vec) == TRUE)), 
+                                        return_periods[i])
 }
 
 for (i in 1:n_rp) {
-  vals<-replace(vals, intersect(which(is.na(getValues(returnLevels_wse_upscaled[[i]]))==FALSE), which(vals>return_periods[i])), return_periods[i])
+      flopit_interpolated_rp_vec <- replace(flopit_interpolated_rp_vec, 
+                                            intersect( 
+                                                      which(is.na(getValues(returnLevels_wse_upscaled[[i]])) == FALSE), 
+                                                      which(flopit_interpolated_rp_vec > return_periods[i])),
+                                            return_periods[i])
 }
 
-vals<-replace(vals, intersect(which(is.na(getValues(returnLevels_wse_upscaled[[n_rp]]))==FALSE), which(is.na(vals)==TRUE)), return_periods[n_rp])
+flopit_interpolated_rp_vec <- replace(flopit_interpolated_rp_vec, 
+                                      intersect(
+                                                which(is.na(getValues(returnLevels_wse_upscaled[[n_rp]])) == FALSE), 
+                                                which(is.na(flopit_interpolated_rp_vec) == TRUE)), 
+                                      return_periods[n_rp])
 
-vals<-replace(vals, which(is.na(getValues(returnLevels_wse_upscaled[[n_rp]]))==TRUE), NA)
+flopit_interpolated_rp_vec <- replace(flopit_interpolated_rp_vec, 
+                                      which(is.na(getValues(returnLevels_wse_upscaled[[n_rp]])) == TRUE), 
+                                      NA)
+
 # Ensure proper flooding extent: Slight mistmatches between flood elevation and the DEM may leave areas in 
 # the 500 year zone in the 100 year zone
 
 for (i in 1:(n_rp-1)) {
-  vals<-replace(vals, intersect(intersect(which(is.na(getValues(returnLevels_wse_upscaled[[i+1]]))==FALSE), 
+  flopit_interpolated_rp_vec<-replace(flopit_interpolated_rp_vec, intersect(intersect(which(is.na(getValues(returnLevels_wse_upscaled[[i+1]]))==FALSE), 
                                           which(is.na(getValues(returnLevels_wse_upscaled[[i]]))==TRUE)),
-                                which((vals<return_periods[i]))), return_periods[i])
+                                which((flopit_interpolated_rp_vec<return_periods[i]))), return_periods[i])
 }
-
-
-#which(is.na(getValues(returnLevels_wse_upscaled[[i]]))==TRUE)
 
 ########################## recreate flood zones
 # create new raster
@@ -184,40 +227,51 @@ bounds <- replace(bounds500, which(bounds100<Inf),100)
 # set raster values to be either NA, 500, 100, or 1 to define the FEMA flood zones and mean WSE
 
 # Ensure proper flooding extent: Slight mistmatches between flood elevation and the DEM may leave areas outside the 500 wet
-vals<-replace(vals, which(is.na(getValues(floodzones))==TRUE), NA)
+flopit_interpolated_rp_vec <- replace(flopit_interpolated_rp_vec, 
+                                      which(is.na(getValues(floodzones))==TRUE), 
+                                      NA)
+
 # set raster values to the interpolated return period values
-
-if(map_type=='return period'){
-  floodzones <- setValues(floodzones, bounds)
-  rt_map <- setValues(rt_map, vals)
+if(map_type == 'return period'){
+  
+      floodzones <- setValues(floodzones, bounds)
+      flopit_interpolated_raster <- setValues(flopit_interpolated_raster, flopit_interpolated_rp_vec)
+      
+}else if(map_type == 'probability'){
+  
+      floodzones <- setValues(floodzones, 1/bounds)
+      flopit_interpolated_raster <- setValues(flopit_interpolated_raster, 1/flopit_interpolated_rp_vec)
+      
+}else if(map_type=='percent probability'){
+  
+      floodzones <- setValues(floodzones, 1/bounds*100)
+      flopit_interpolated_raster <- setValues(flopit_interpolated_raster, 1/flopit_interpolated_rp_vec*100)
+      
+}else{
+  
+      print("ERROR: define map type ('return period', 'probability', 'percent probability)")
 }
-else if(map_type=='probability'){
-  floodzones <- setValues(floodzones, 1/bounds)
-  rt_map <- setValues(rt_map, 1/vals)
-}
-else if(map_type=='percent probability'){
-  floodzones <- setValues(floodzones, 1/bounds*100)
-  rt_map <- setValues(rt_map, 1/vals*100)
-}
-else(print("ERROR: define map type ('return period', 'probability', 'percent probability)"))
 
 
-names(rt_map)<-'FLOPIT flood probability map'
-names(floodzones)<-'FLOPIT flood zone map'
+names(flopit_interpolated_raster) <- 'FLOPIT flood probability map'
+names(floodzones) <- 'FLOPIT flood zone map'
+
 ######################### Save analysis data, flood probability map, and flood zones map
 if(save == TRUE){
-# save the RDATA for analysis
-save.image(file = save_path_data)
+  
+      # save the RDATA for analysis
+      save.image(file = save_path_data)
 
-# save the rt_map (interpolated probability map using all FEMA flood surface elevation values)
-writeRaster(rt_map, filename = save_path_map, format = 'GTiff', overwrite = TRUE)
+      # save the flopit_interpolated_raster (interpolated probability map using all FEMA flood surface elevation values)
+      writeRaster(flopit_interpolated_raster, filename = save_path_map, format = 'GTiff', overwrite = TRUE)
 
-# save the FEMA flood zone map (Warning: not guaranteed to exactly match the official FEMA NFHL flood zone map)
-writeRaster(floodzones, filename = save_path_zones, format = 'GTiff', overwrite = TRUE)
+      # save the FEMA flood zone map (Warning: not guaranteed to exactly match the official FEMA NFHL flood zone map)
+      writeRaster(floodzones, filename = save_path_zones, format = 'GTiff', overwrite = TRUE)
+      
+}else{ # Return FLOPIT results (rt map and flood zone map)
+  
+      results <- list(flopit_interpolated_raster, floodzones)
+      return(results)
 }
-######################### Return FLOPIT results (rt map and flood zone map)
-if(save == FALSE){
-  results <- list(rt_map, floodzones)
-  return(results)
-}
-}
+
+} # End of FLOPIT function

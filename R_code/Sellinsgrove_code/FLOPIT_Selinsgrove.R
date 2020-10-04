@@ -18,17 +18,18 @@
 rm(list = ls())
 graphics.off()
 
-# Install packages
-install.packages('raster')
-install.packages('rgdal')
-install.packages('sp')
-install.packages('FNN')
-install.packages('dismo')
-install.packages('deldir')
-install.packages('rgeos')
-install.packages('RColorBrewer')
-install.packages('scales')
-install.packages('gstat')
+# Install packages if you do not have them already 
+# 
+# install.packages('raster')
+# install.packages('rgdal')
+# install.packages('sp')
+# install.packages('FNN')
+# install.packages('dismo')
+# install.packages('deldir')
+# install.packages('rgeos')
+# install.packages('RColorBrewer')
+# install.packages('scales')
+# install.packages('gstat')
 
 # load packages
 require('raster')
@@ -54,40 +55,69 @@ require('gstat')
 # https://www.fema.gov/media-library-data/1523562952942-4c54fdae20779bb004857f1915236e6c/Flood_Depth_and_Analysis_Grids_Guidance_Feb_2018.pdf
 
 ########################## set working directory
-setwd("~/GIS_Data/FLOPIT-master")
+# setwd("~/...<where the main repo is saved on your computer>.../FLOPIT-master")
 
+# Load the libraries 
 source('R_code/FLOPIT_function.R')
+
 ########################## Set data links and values
 # vector of flood depth raster file locations for Muncy, PA, preprocessed to the same coordinate system and spatial extent
-flood_rasters <- c('Data/Sellinsgrove_data/dg_10pct_clip.tif', 'Data/Sellinsgrove_data/dg_4pct_clip.tif',
-                   'Data/Sellinsgrove_data/dg_2pct_clip.tif', 'Data/Sellinsgrove_data/dg_1pct_clip.tif',
-                   'Data/Sellinsgrove_data/dg_02pct_clip.tif')
+flood_raster_names <- c('Data/Sellinsgrove_data/dg_10pct_clip.tif', 
+                        'Data/Sellinsgrove_data/dg_4pct_clip.tif',
+                        'Data/Sellinsgrove_data/dg_2pct_clip.tif', 
+                        'Data/Sellinsgrove_data/dg_1pct_clip.tif',
+                        'Data/Sellinsgrove_data/dg_02pct_clip.tif')
+
 # file location of the elevation map for Muncy, PA, preprocessed to the same coordinate system and spatial extent
 elevation_raster <- c('Data/Sellinsgrove_data/Sellinsgrove_DEM_clip1.tif')
+
 # vector of flood probabilities associated with the raster flood depth maps
 flood_probabilities <- c(0.1, 0.04, 0.02, 0.01, 0.002)
 
 ######################### FLOPIT analysis: spline interpolation scheme
-flopit_Selinsgrove_spline <- FLOPIT(flood_rasters, flood_probabilities, elevation_raster, depth = TRUE, aggregation_value = 10, 
-                              method = 'spline', save = FALSE, map_type = 'return period')
+flopit_Selinsgrove_spline <- FLOPIT(
+                                    flood_raster_names, 
+                                    flood_probabilities, 
+                                    elevation_raster, 
+                                    depth = TRUE, 
+                                    aggregation_value = 10, 
+                                    method = 'spline', 
+                                    save = FALSE, 
+                                    map_type = 'return period')
 
 ######################### FLOPIT analysis: FEMA log-linear interpolation scheme
-flopit_Selinsgrove_loglinear <- FLOPIT(flood_rasters, flood_probabilities, elevation_raster, depth = TRUE, aggregation_value = 10, 
-                                 method = 'log-linear', save = FALSE, map_type = 'return period')
+flopit_Selinsgrove_loglinear <- FLOPIT(
+                                      flood_raster_names, 
+                                      flood_probabilities, 
+                                      elevation_raster, 
+                                      depth = TRUE, 
+                                      aggregation_value = 10, 
+                                      method = 'log-linear', 
+                                      save = FALSE, 
+                                      map_type = 'return period')
 
 ######################## Plots: flood probability and flood zone maps
 flopit_map <- flopit_Selinsgrove_spline[[1]] # FLOPIT spline interpolation flood probability map
 flopit_zones <- flopit_Selinsgrove_spline[[2]] # flood zone map
 
-
 pdf("Figures/Selinsgrove_figures/FLOPIT_Selinsgrove_rtmap.pdf",width = 187*0.0393701, height = 187*(100/141)*0.0393701)
-print(spplot(flopit_map, xlab = "Easting", ylab = "Northing",col.regions = colorRampPalette(c('darkred', 'pink', 'skyblue', "blue")),
-             par.settings = list(fontsize = list(text = 20)), at = seq(0, 500, 1)))
+print(spplot(
+            flopit_map, 
+            xlab = "Easting", 
+            ylab = "Northing",
+            col.regions = colorRampPalette(c('darkred', 'pink', 'skyblue', "blue")),
+            par.settings = list(fontsize = list(text = 20)), 
+            at = seq(0, 500, 1)))
 dev.off()
 
 pdf("Figures/Selinsgrove_figures/FLOPIT_Selinsgrove_zones.pdf",width = 187*0.0393701, height = 187*(100/141)*0.0393701)
-print(spplot(flopit_zones, xlab = "Easting", ylab = "Northing",col.regions = colorRampPalette(c('darkred', 'pink', 'skyblue', "blue")),
-             par.settings = list(fontsize = list(text = 20)), at = seq(0, 500, 1)))
+print(spplot(
+            flopit_zones, 
+            xlab = "Easting", 
+            ylab = "Northing",
+            col.regions = colorRampPalette(c('darkred', 'pink', 'skyblue', "blue")),
+            par.settings = list(fontsize = list(text = 20)), 
+            at = seq(0, 500, 1)))
 dev.off()
 
 ######################## Plots: difference between flood probability map and flood zones
@@ -95,28 +125,44 @@ flopit_map_error <- flopit_map
 flopit_map_error <- setValues(flopit_map_error, getValues(flopit_zones)-getValues(flopit_map))
 
 pdf("Figures/Selinsgrove_figures/FLOPIT_prob_zone_difference.pdf",width = 187*0.0393701, height = 187*(100/141)*0.0393701)
-print(spplot(flopit_map_error, xlab = "Easting", ylab = "Northing",col.regions = colorRampPalette(c('darkred', 'pink', 'skyblue', "blue")),
-             par.settings = list(fontsize = list(text = 20)), at = seq(-250, 250, 1)))
+print(spplot(
+            flopit_map_error, 
+            xlab = "Easting", 
+            ylab = "Northing",
+            col.regions = colorRampPalette(c('darkred', 'pink', 'skyblue', "blue")),
+            par.settings = list(fontsize = list(text = 20)), 
+            at = seq(-250, 250, 1)))
 dev.off()
 
 ######################## More plots: flood probability distribution within flood zones
-
 zones <- getValues(flopit_zones)
 probabilities <- getValues(flopit_map)
 
 # determine which cells posses NA values in any of the flood return period maps
-allnas <- c(which(is.nan(zones)==TRUE), which(is.nan(probabilities)==TRUE),
-            which(is.na(zones)==TRUE), which(is.na(probabilities)==TRUE))
+allnas <- c(which(is.nan(zones)==TRUE), 
+            which(is.nan(probabilities)==TRUE),
+            which(is.na(zones)==TRUE), 
+            which(is.na(probabilities)==TRUE))
+
 allnas <- unique.numeric_version(allnas)
 
 # place cell values with real values across all three return period maps into matrix
 flood_dat <- matrix(data = NA, nrow = length(zones[-allnas]), ncol = 2)
 flood_dat[,1] <- zones[-allnas]
 flood_dat[,2] <- probabilities[-allnas]
-colnames(flood_dat)<-as.character(c("FEMA_zones", "Flopit_probabilities"))
+colnames(flood_dat) <- as.character(c("FEMA_zones", "Flopit_probabilities"))
 
 # plot FEMA flood zone return periods vs FEMA calculated and interpolated return periods
 pdf("Figures/Selinsgrove_figures/zone_vs_probabilities_boxplot.pdf",width = 187*0.0393701, height = 187*(100/141)*0.0393701)
-boxplot(Flopit_probabilities~FEMA_zones, data = flood_dat, col = 'lightblue',
-        xlab = "FEMA Flood Zones (Return Period)", ylab = "Interpolated Return Period", pch = 16, outline = FALSE)
+boxplot(Flopit_probabilities~FEMA_zones, 
+        data = flood_dat, 
+        col = 'lightblue',
+        xlab = "FEMA Flood Zones (Return Period)", 
+        ylab = "Interpolated Return Period", 
+        pch = 16, 
+        outline = FALSE)
+
 dev.off()
+
+
+
