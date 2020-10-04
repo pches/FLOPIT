@@ -1,0 +1,6 @@
+<PAMDataset>
+  <SRS>PROJCS[&quot;NAD83_Pennsylvania_North&quot;,GEOGCS[&quot;GCS_North_American_1983&quot;,DATUM[&quot;D_North_American_1983&quot;,SPHEROID[&quot;GRS_1980&quot;,6378137.0,298.257222101]],PRIMEM[&quot;Greenwich&quot;,0.0],UNIT[&quot;Degree&quot;,0.0174532925199433]],PROJECTION[&quot;Lambert_Conformal_Conic&quot;],PARAMETER[&quot;false_easting&quot;,1968500.0],PARAMETER[&quot;false_northing&quot;,0.0],PARAMETER[&quot;central_meridian&quot;,-77.75],PARAMETER[&quot;standard_parallel_1&quot;,41.95],PARAMETER[&quot;standard_parallel_2&quot;,40.88333333333333],PARAMETER[&quot;latitude_of_origin&quot;,40.16666666666666],UNIT[&quot;Foot_US&quot;,0.3048006096012192]]</SRS>
+  <PAMRasterBand band="1">
+    <NoDataValue>2.55000000000000E+002</NoDataValue>
+  </PAMRasterBand>
+</PAMDataset>
