@@ -143,7 +143,7 @@ for (i in 1:n_points){
             (log10(max(probs_pct[which(cell_wse>ground_elevations[i])]))-log10(min(probs_pct[which(cell_wse<ground_elevations[i])])))/
             (min(cell_wse[which(cell_wse>ground_elevations[i])])-max(cell_wse[which(cell_wse<ground_elevations[i])]))
         )+log10(min(probs_pct[which(cell_wse<ground_elevations[i])])))
-        denom1 <- denom1/100 
+        denom <- denom1/100 
         flopit_interpolated_rp_vec[i] <- 1/ denom
         
   }else if(method == 'spline'){
