@@ -91,7 +91,7 @@ flopit_Selinsgrove_loglinear <- FLOPIT(
                                       flood_probabilities, 
                                       elevation_raster, 
                                       depth = TRUE, 
-                                      aggregation_value = 10, 
+                                      aggregation_value = 2, 
                                       method = 'log-linear', 
                                       save = FALSE, 
                                       map_type = 'return period')

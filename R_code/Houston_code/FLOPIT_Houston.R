@@ -17,16 +17,16 @@ rm(list = ls())
 graphics.off()
 
 # Install packages
-install.packages('raster')
-install.packages('rgdal')
-install.packages('sp')
-install.packages('FNN')
-install.packages('dismo')
-install.packages('deldir')
-install.packages('rgeos')
-install.packages('RColorBrewer')
-install.packages('scales')
-install.packages('gstat')
+# install.packages('raster')
+# install.packages('rgdal')
+# install.packages('sp')
+# install.packages('FNN')
+# install.packages('dismo')
+# install.packages('deldir')
+# install.packages('rgeos')
+# install.packages('RColorBrewer')
+# install.packages('scales')
+# install.packages('gstat')
 
 # load packages
 require('raster')
@@ -52,8 +52,6 @@ require('gstat')
 # https://www.fema.gov/media-library-data/1523562952942-4c54fdae20779bb004857f1915236e6c/Flood_Depth_and_Analysis_Grids_Guidance_Feb_2018.pdf
 
 ########################## set working directory
-setwd("~/GIS_Data/FLOPIT-master")
-
 source('R_code/FLOPIT_function.R')
 
 ########################## Set data links and values
@@ -71,12 +69,30 @@ prob_map_orig <- raster(str_name)
 prob_map_orig <- setValues(prob_map_orig, 1/getValues(prob_map_orig))
 
 ######################### FLOPIT analysis: spline interpolation scheme
-flopit_Houston_spline <- FLOPIT(flood_rasters, flood_probabilities, elevation_raster, depth = FALSE, aggregation_value = 5, 
-                              method = 'spline', save = FALSE, map_type = 'return period')
+flopit_Houston_spline <- FLOPIT(flood_rasters, 
+                                flood_probabilities, 
+                                elevation_raster, 
+                                depth = FALSE, 
+                                aggregation_value = 1, 
+                                method = 'spline', 
+                                save = TRUE, 
+                                save_path_map = 'saved_map_spline',
+                                save_path_data = 'saved_data_spline', 
+                                save_path_zones = 'saved_zones_spline',
+                                map_type = 'return period')
 
 ######################### FLOPIT analysis: FEMA log-linear interpolation scheme
-flopit_Houston_loglinear <- FLOPIT(flood_rasters, flood_probabilities, elevation_raster, depth = FALSE, aggregation_value = 5, 
-                                 method = 'log-linear', save = FALSE, map_type = 'return period')
+flopit_Houston_loglinear <- FLOPIT(flood_rasters, 
+                                   flood_probabilities, 
+                                   elevation_raster, 
+                                   depth = FALSE, 
+                                   aggregation_value = 2, 
+                                   method = 'log-linear', 
+                                   save = TRUE, 
+                                   save_path_map = 'saved_map_ll',
+                                   save_path_data = 'saved_data_ll', 
+                                   save_path_zones = 'saved_zones_ll',
+                                   map_type = 'return period')
 
 ######################## Plots: flood probability and flood zone maps
 flopit_map <- flopit_Houston_spline[[1]] # FLOPIT spline interpolation flood probability map

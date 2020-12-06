@@ -29,6 +29,15 @@ require('gstat')
 ################################### FLOPIT function ##########################################
 FLOPIT <- function(flood_rasters_names, flood_probabilities, elevation_raster, depth, aggregation_value, method, map_type,
                     save, save_path_data, save_path_map, save_path_zones){
+flood_rasters_names=flood_rasters 
+flood_probabilities=flood_probabilities 
+elevation_raster=elevation_raster 
+depth = FALSE 
+aggregation_value = 1 
+method = 'spline'
+map_type = 'return period'
+save = FALSE 
+  
 ################ Import Houston Clipped and Resampled Raster files ###########################
 # be sure to change file paths
 n_rp <- length(flood_rasters_names)
@@ -44,7 +53,7 @@ for(i in 1:n_rp){
 }
 
 # import Lidar DEM of the study area
-dem <- raster(elevation_raster)
+dem <- raster(elevation_raster,values=TRUE)
 print('Done reading flood rasters and elevation data')
 
 ######################### Convert flood depths (ft) to elevations (ft)
@@ -59,15 +68,21 @@ print('Done with calculating water surface elevation')
 
 ######################### Interpolate missing values
 # aggregate the rasters
-returnLevels_wse_upscaled <- vector(length = n_rp)
+if(aggregation_value > 1){
+  returnLevels_wse_upscaled <- vector(length = n_rp)
 
-for(i in 1:n_rp){
-  returnLevels_wse_upscaled[i] <- list(aggregate(flood_wse_vector[[i]], fact = aggregation_value, fun = mean))
-}
+  for(i in 1:n_rp){
+    returnLevels_wse_upscaled[i] <- list(aggregate(flood_wse_vector[[i]], fact = aggregation_value, fun = mean))
+  }
 
-dem_upscaled <- aggregate(dem, 
+  dem_upscaled <- aggregate(dem, 
                       fact = aggregation_value, 
                       fun = mean)
+}else{
+  returnLevels_wse_upscaled <- flood_wse_vector
+  dem_upscaled <- dem
+}
+
 print('Done with aggregating elevation and water surface elevation data')
 
 ######################### Smooth water surface elevation data using Inverse Weighted Distance method
@@ -106,15 +121,16 @@ print('Done with smooting water surface elevation')
 ######################### Interpolate flood probability map
 # use pre-existing raster to create new raster of same cell size, extent, projection, etc.
 flopit_interpolated_raster <- dem_upscaled
+
 # set all values of the new raster to be NA
 setValues(flopit_interpolated_raster, NA)
+
 # create a vector to write interpolated flood return periods to (values are not assigned yet)
 flopit_interpolated_rp_vec <- vector(mode = 'numeric', length = length(flopit_interpolated_raster@data@values))
-
 # for loop uses splines to define flood elevation to return period for each cell
 # and interpolate the return period associated with each cell's elevation
 ground_elevations <- getValues(dem_upscaled)
-n_points <- length(flopit_interpolated_raster@data@values)
+n_points <- length(ground_elevations)
 
 
 # For monitoring the progress
@@ -122,27 +138,25 @@ pb <- txtProgressBar(min = 0, max = length(getValues(flopit_interpolated_raster)
 start <- Sys.time()
 
 for (i in 1:n_points){
-  
   # monitor the progress 
   setTxtProgressBar(pb, i)
-  
   # start the vector that contains the water surface evelations in this point 
   cell_wse <- vector(length = n_rp)
   for (j in 1:n_rp) {
-    cell_wse[j] <- returnLevels_wse_smooth[[j]]@data@values[i]
+    tryCatch(cell_wse[j] <- returnLevels_wse_smooth[[j]]@data@values[i]
+             ,error=function() cell_wse[j] <- NA)
   }
   
   cell_wse <- sort(cell_wse, decreasing = FALSE) # due to occasional error introduced by aggregation, 
   # on steep slopes, smaller floods may produce higher WSE elevations for a single tile due to aggregation.
   # While these errors reduce accuracy, sorting the floods allows the interpolation scheme to make a
   # realistic approximation or the relationship and finish the job
-  
   if(method == 'log-linear'){ # official FEMA log-linear interpolation formula
         denom1 <- 10^((
-          (ground_elevations[i]-max(cell_wse[which(cell_wse<ground_elevations[i])]))*
-            (log10(max(probs_pct[which(cell_wse>ground_elevations[i])]))-log10(min(probs_pct[which(cell_wse<ground_elevations[i])])))/
-            (min(cell_wse[which(cell_wse>ground_elevations[i])])-max(cell_wse[which(cell_wse<ground_elevations[i])]))
-        )+log10(min(probs_pct[which(cell_wse<ground_elevations[i])])))
+          (ground_elevations[i] - max(cell_wse[which(cell_wse < ground_elevations[i])]))*
+            (log10(max(probs_pct[which(cell_wse > ground_elevations[i])])) - log10(min(probs_pct[which(cell_wse < ground_elevations[i])])))/
+            (min(cell_wse[which(cell_wse > ground_elevations[i])]) - max(cell_wse[which(cell_wse < ground_elevations[i])]))
+        ) + log10(min(probs_pct[which(cell_wse < ground_elevations[i])])))
         denom <- denom1/100 
         flopit_interpolated_rp_vec[i] <- 1/ denom
         
@@ -150,6 +164,7 @@ for (i in 1:n_points){
     
         flopit_interpolated_rp_vec[i] <- spline(cell_wse,return_periods,xout = ground_elevations[i], method = 'hyman')$y
   }
+
 }
 
 # finish progress monitoring
@@ -208,7 +223,7 @@ flopit_interpolated_rp_vec <- replace(flopit_interpolated_rp_vec,
 # the 500 year zone in the 100 year zone
 
 for (i in 1:(n_rp-1)) {
-  flopit_interpolated_rp_vec<-replace(flopit_interpolated_rp_vec, intersect(intersect(which(is.na(getValues(returnLevels_wse_upscaled[[i+1]]))==FALSE), 
+  flopit_interpolated_rp_vec <- replace(flopit_interpolated_rp_vec, intersect(intersect(which(is.na(getValues(returnLevels_wse_upscaled[[i+1]]))==FALSE), 
                                           which(is.na(getValues(returnLevels_wse_upscaled[[i]]))==TRUE)),
                                 which((flopit_interpolated_rp_vec<return_periods[i]))), return_periods[i])
 }
