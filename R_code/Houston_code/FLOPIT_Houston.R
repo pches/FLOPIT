@@ -121,7 +121,7 @@ print(spplot(flopit_zones,
              at = seq(0, 500, 1)))
 dev.off()
 
-pdf("Output/Houston/Figures/FMA_probability_map.pdf",width = 187*0.0393701, height = 187*(100/141)*0.0393701)
+pdf("Output/Houston/Figures/FEMA_probability_map.pdf",width = 187*0.0393701, height = 187*(100/141)*0.0393701)
 print(spplot(prob_map_orig,
              main='FEMA Probablity Map', 
              xlab = "Easting", 

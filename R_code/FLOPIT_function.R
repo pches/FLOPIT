@@ -30,17 +30,17 @@ require('gstat')
 FLOPIT <- function(flood_rasters_names,flood_probabilities,elevation_raster,depth,aggregation_value,method,map_type,
                    save_outputs,save_path_data,save_path_map,save_path_zones){
   # Descriptions:
-  # flood_rasters_names, 
-  # flood_probabilities, 
-  # elevation_raster, 
-  # depth, 
-  # aggregation_value, 
-  # method, 
-  # map_type,
+  # flood_rasters_names: vector of strings to indicate the path of data , 
+  # flood_probabilities: a vector of a similar size with flood_rasters_names. This vector indicates the probabilities (1/RP), 
+  # elevation_raster: path to DEM data, 
+  # depth: logical: is the data provided depth? if TRUE, it will be added to the DEM data to get water surface elevation, 
+  # aggregation_value: an integer value to upscale the inputs by. If one, calculations are done on the native resolution, 
+  # method: interpolation method. Options are 'spline' and 'loglinear', 
+  # map_type options: 'return period','probability', and 'percent probability',
   # save_outputs: Logical: If output data should be saved 
-  # save_path_data: save_outputs 
-  # save_path_map, 
-  # save_path_zones
+  # save_path_data: if save_outputs is true, provide a path to save the data  
+  # save_path_map, if save_outputs is true, provide a path to save the map data   
+  # save_path_zones if save_outputs is true, provide a path to save the zones  
   
 ## For debugging the function, uncomment the following lines 
 #flood_rasters_names=flood_rasters 
