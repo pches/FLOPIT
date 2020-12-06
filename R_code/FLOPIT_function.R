@@ -27,16 +27,30 @@ require('scales')
 require('gstat')
 
 ################################### FLOPIT function ##########################################
-FLOPIT <- function(flood_rasters_names, flood_probabilities, elevation_raster, depth, aggregation_value, method, map_type,
-                    save, save_path_data, save_path_map, save_path_zones){
-flood_rasters_names=flood_rasters 
-flood_probabilities=flood_probabilities 
-elevation_raster=elevation_raster 
-depth = FALSE 
-aggregation_value = 1 
-method = 'spline'
-map_type = 'return period'
-save = FALSE 
+FLOPIT <- function(flood_rasters_names,flood_probabilities,elevation_raster,depth,aggregation_value,method,map_type,
+                   save_outputs,save_path_data,save_path_map,save_path_zones){
+  # Descriptions:
+  # flood_rasters_names, 
+  # flood_probabilities, 
+  # elevation_raster, 
+  # depth, 
+  # aggregation_value, 
+  # method, 
+  # map_type,
+  # save_outputs: Logical: If output data should be saved 
+  # save_path_data: save_outputs 
+  # save_path_map, 
+  # save_path_zones
+  
+## For debugging the function, uncomment the following lines 
+#flood_rasters_names=flood_rasters 
+#flood_probabilities=flood_probabilities 
+#elevation_raster=elevation_raster 
+#depth = FALSE 
+#aggregation_value = 1 
+#method = 'log-linear'
+#map_type = 'return period'
+#save_outputs = FALSE 
   
 ################ Import Houston Clipped and Resampled Raster files ###########################
 # be sure to change file paths
@@ -272,7 +286,7 @@ names(flopit_interpolated_raster) <- 'FLOPIT flood probability map'
 names(floodzones) <- 'FLOPIT flood zone map'
 
 ######################### Save analysis data, flood probability map, and flood zones map
-if(save == TRUE){
+if(save_outputs == TRUE){
   
       # save the RDATA for analysis
       save.image(file = save_path_data)
@@ -283,10 +297,9 @@ if(save == TRUE){
       # save the FEMA flood zone map (Warning: not guaranteed to exactly match the official FEMA NFHL flood zone map)
       writeRaster(floodzones, filename = save_path_zones, format = 'GTiff', overwrite = TRUE)
       
-}else{ # Return FLOPIT results (rt map and flood zone map)
-  
-      results <- list(flopit_interpolated_raster, floodzones)
-      return(results)
 }
+
+results <- list(flopit_interpolated_raster, floodzones)
+return(results)
 
 } # End of FLOPIT function
