@@ -13,7 +13,7 @@ Authors: Mahkameh Zarekarizi (1,2,*), K. Joel Roop-Eckart (3) , Sanjib Sharma (1
 *Author to whom correspondence should be addressed (mahkameh.zare@gmail.com).
 
 Author and copyright: Mahkameh Zarekarizi, Jupiter Intelligence, and Pennsylvania State University  
-This notebook is written by Mahkameh Zarekarizi, while at Jupiter Intelligence 
+This notebook is written by Mahkameh Zarekarizi, while at Jupiter Intelligence. Acknowledgement: Special thanks to Dr. Luke Madaus for contributing to this code by writing the function for filling the NaNs with their nearest neighbor value
 
 Distributed under the GNU general public license
 
@@ -22,9 +22,21 @@ and this manuscript are intended for academic research and education (not for re
 authors or copyright holders be liable for any claim, damages, or other liability in connection with
 the use of these resources
 
-Acknowledgement: Special thanks to Dr. Luke Madaus for contributing to this code by writing the function for filling the NaNs with their nearest neighbor that is not NaN
+This file contains functions that are needed to run FLOPIT. These functions are as the following:
+
+FLOPIT_preProcessed: the main FLOPIT function where inputs are paths to flood rasters 
+FLOPIT: the main FLOPIT function where inputs are the xarray dataset that contains all flood and dem information.
+log_linear_interpolate: function that conducts log linear interpolation for one point
+linear_interpolate: function that conducts linear interpolation for one point
+spline_interpolate: function that conducts cubic spline interpolation for one point
+log_spline_interpolate: function that conducts log cubic spline interpolation for one point
+generate_tif: function that genrates geo tiff files from any dataset with certain dimensions and coordinates 
+plot_dem: function that creates plots (.png) for the DEM 
+plot_flood_depths: function that creates plots (.png) containing flood depth/water surface elevation data 
+generate_depth_elev_ds: function that reads tif files and convert all information into an xarray dataset 
+point_EAD: function that estimates the expected annual damages or EAD for a certain point in the study area 
 '''
-    
+
 # Import
 import xarray
 import rasterio
@@ -40,6 +52,19 @@ from scipy import interpolate
 from sklearn.metrics import auc
 
 def log_linear_interpolate(x, y, xout, kind='linear',plot=False,verbose=1):
+    """
+    Function that receives x and y as np.arrays and one float number within the range of x and returns the associated value on the y axis, 
+    using a log-linear interpolation method. 
+    
+    x: a numpy array for x values  
+    y: a numpy array for y values 
+    xout: the x value of the point of interest for interpolation
+    kind: type of interpolation. Will become more flexible in future versions. For now, please do not change 
+    plot: boolean to determine if you would like to plot x and y as a line and xout and yout as a point
+    verbose: boolean, if you would like the function to print out the progress
+    
+    return: yout, the y value associated with xout after interpolation
+    """
     
     if (np.sum(np.isnan(y)) == len(y)) or (np.sum(y<=0) == len(y)):
         yout = np.nan
@@ -81,6 +106,20 @@ def log_linear_interpolate(x, y, xout, kind='linear',plot=False,verbose=1):
     return yout
 
 def linear_interpolate(x, y, xout, kind='linear',plot=False,verbose=1):
+    """
+    Function that receives x and y as np.arrays and one float number within the range of x and returns the associated value on the y axis, 
+    using a linear interpolation method. 
+    
+    x: a numpy array for x values  
+    y: a numpy array for y values 
+    xout: the x value of the point of interest for interpolation
+    kind: type of interpolation. Will become more flexible in future versions. For now, please do not change 
+    plot: boolean to determine if you would like to plot x and y as a line and xout and yout as a point
+    verbose: boolean, if you would like the function to print out the progress
+    
+    return: yout, the y value associated with xout after interpolation
+    """
+
 
     if (np.sum(np.isnan(y)) == len(y)) or (np.sum(y<=0) == len(y)):
         yout = np.nan
@@ -99,6 +138,19 @@ def linear_interpolate(x, y, xout, kind='linear',plot=False,verbose=1):
 
 
 def spline_interpolate(x,y,xout,plot=False,verbose=1):
+    """
+    Function that receives x and y as np.arrays and one float number within the range of x and returns the associated value on the y axis, 
+    using a log-linear interpolation method.
+    
+    x: a numpy array for x values  
+    y: a numpy array for y values 
+    xout: the x value of the point of interest for interpolation
+    kind: type of interpolation. Will become more flexible in future versions. For now, please do not change 
+    plot: boolean to determine if you would like to plot x and y as a line and xout and yout as a point
+    verbose: boolean, if you would like the function to print out the progress
+    
+    return: yout, the y value associated with xout after interpolation
+    """
     
     if (np.sum(np.isnan(y)) == len(y)) or (np.sum(y<=0) == len(y)):
         yout = np.nan
@@ -125,6 +177,19 @@ def spline_interpolate(x,y,xout,plot=False,verbose=1):
 
 
 def log_spline_interpolate(x, y, xout, kind='linear',plot=False,verbose=1):
+    """
+    Function that receives x and y as np.arrays and one float number within the range of x and returns the associated value on the y axis, 
+    using a log-spline interpolation method.
+    
+    x: a numpy array for x values  
+    y: a numpy array for y values 
+    xout: the x value of the point of interest for interpolation
+    kind: type of interpolation. Will become more flexible in future versions. For now, please do not change 
+    plot: boolean to determine if you would like to plot x and y as a line and xout and yout as a point
+    verbose: boolean, if you would like the function to print out the progress
+    
+    return: yout, the y value associated with xout after interpolation
+    """
         
     # If all are NaN or all are negative, return NaN
     if (np.sum(np.isnan(y)) == len(y)) or (np.sum(y<=0) == len(y)):
@@ -176,17 +241,14 @@ def log_spline_interpolate(x, y, xout, kind='linear',plot=False,verbose=1):
     
     return yout
 
-def generate_tif(src,
-    output: np.ndarray,
-    outfile_name: str,
-    ) -> None:
+def generate_tif(src,output: np.ndarray,outfile_name: str) -> None:
     """
-    Creates a tiff file with the given Affine.
+    Creates a tiff file from an xarray data array. The affine of the tif file matches the affine of the src (input). 
 
-    :param use_affine: The affine to use.
-    :param output: The data to write to the tiff. Must be 2D or 3D.
+    :param output: The data to write to the tiff. must be an xarray dataArray.
     :param outfile_name: The resulting filename.
-    :return:
+    
+    :return: nothing 
     """
     
     # get info based on shape of array
@@ -213,6 +275,17 @@ def generate_tif(src,
     return
 
 def plot_dem(elev,input_dem_plot_path,units='m',sample_point=None):
+    """
+    Function that receives elevation data as xarray dataArray and plots the elevation raster as a png file.
+    
+    elev: data array that contains elevation data. Must have x and y variables. 
+    input_dem_plot_path: path where you want to save the png file
+    units: the units of the DEM values. default is meters
+    sample_point: if a sample point is provided, this fuction puts a red dot in the location of the point. If you do not wish to have this point, set this to None. If yu would like to provide this input, it should be in this format: (x,y)
+    
+    returns: nothing
+    """
+
     plt.figure(figsize=(12,8))
     plt.pcolor(elev.x,elev.y,elev)
     plt.colorbar()
@@ -221,8 +294,21 @@ def plot_dem(elev,input_dem_plot_path,units='m',sample_point=None):
     plt.title(f'DEM({units})')
     plt.savefig(input_dem_plot_path)
     plt.close()
+    return
 
 def plot_flood_depths(raster_data_ds,input_depth_plot_path,units='m',type='depth',sample_point=None):
+    """
+    Function that receives flood raster data and plots them as a png file.
+    
+    raster_data_ds: data array that contains flood data. Must have x and y variables. 
+    input_depth_plot_path: path where you want to save the png file
+    units: the units of the flodo raster values. default is meters
+    type: str, set to 'depth' if the flood rasters are depth. Otherwise if flood raster data are water surface elevation, set this to 'wse'
+    sample_point: if a sample point is provided, this fuction puts a red dot in the location of the point. If you do not wish to have this point, set this to None. If yu would like to provide this input, it should be in this format: (x,y)
+    
+    returns: nothing
+    """
+
     
     plt.figure(figsize=(12,8))
 
@@ -236,15 +322,30 @@ def plot_flood_depths(raster_data_ds,input_depth_plot_path,units='m',type='depth
         plt.title(f'water surface elevation with {raster_return_periods[i]}% chance')
     plt.savefig(input_depth_plot_path)
     plt.close()
+    return 
 
 def generate_depth_elev_ds(flood_rasters_path_list:list, #list of paths to the raster data  
-           input_return_periods:list, #list of floats that contains exceedence probabilities of the provided rasters. This must be the same length as the first argument  
-           elevation_raster: str, #path to the elevation DEM data 
-           depth_or_wse:str, #If the provided data are depth, set this as 'depth'. If they are water surface elevation, this this to 'wse'. 
-           depth_units:str, #The units for the input flood rasters. Options are 'ft', 'feet', 'm', 'meter', and 'meters'
-           dem_units: str, #The units for the DEM data. Options are 'ft', 'feet', 'm', 'meter', and 'meters'
+           input_return_periods:list, 
+           elevation_raster: str, 
+           depth_or_wse:str, 
+           depth_units:str, 
+           dem_units: str, 
            verbose:int = 1,
         ):
+    """
+    Function that receives paths to flood rasters and elevation raster and generates an xarray dataset that contains this data.
+    
+    flood_rasters_path_list: list of floats that contains exceedence probabilities of the provided rasters. This must be the same length as the first argument  
+    input_return_periods:
+    elevation_raster: path to the elevation DEM data 
+    depth_or_wse: If the provided data are depth, set this as 'depth'. If they are water surface elevation, this this to 'wse'. 
+    depth_units: The units for the input flood rasters. Options are 'ft', 'feet', 'm', 'meter', and 'meters'
+    dem_units: The units for the DEM data. Options are 'ft', 'feet', 'm', 'meter', and 'meters'
+    verbose: integer (options are 0 for no and 1 for yes) whether or not to print the progress of the function 
+    
+    returns: returns an xarray dataset that has depth and water surface elevation as variables. 
+    """
+
     # Count the number of input rasters 
     Nrasters = len(flood_rasters_path_list)
     print(f"Received {Nrasters} rasters") if verbose == 1 else None
@@ -354,7 +455,10 @@ def point_EAD(DD_depth,
               dem_units:str,
               verbose:int = 1,
              ):
-    
+    """
+    Function that generates the annual expected damages for a specific poitnt. Requires the depth-damage function. This function has not been used in the publication and is under testing.
+    """
+
     plt.figure()
     plt.plot(DD_depth,DD_damage,'o-')
     plt.xlabel('Depth(m)')
@@ -411,10 +515,10 @@ def point_EAD(DD_depth,
     return ead
 
 
-################################### FLOPIT function ##########################################
-def FLOPIT(flood_rasters_path_list:list, #list of paths to the raster data  
-           input_return_periods:list, #list of floats that contains exceedence probabilities of the provided rasters. This must be the same length as the first argument  
-           elevation_raster: str, #path to the elevation DEM data 
+################################### FLOPIT's main function ##########################################
+def FLOPIT(flood_rasters_path_list:list,  
+           input_return_periods:list,  
+           elevation_raster: str, 
            depth_or_wse:str, #If the provided data are depth, set this as 'depth'. If they are water surface elevation, this this to 'wse'. 
            depth_units:str, #The units for the input flood rasters. Options are 'ft', 'feet', 'm', 'meter', and 'meters'
            dem_units: str, #The units for the DEM data. Options are 'ft', 'feet', 'm', 'meter', and 'meters'
@@ -436,7 +540,31 @@ def FLOPIT(flood_rasters_path_list:list, #list of paths to the raster data
            
           ):
     '''
-    This function returns the xarray dataset that contains the interpolated probabilities
+    This is the main FLOPIT function. It receives the paths to DEM and flood rasters and saves tif files and plots as requested in the inputs. It does not return anything
+    
+    flood_rasters_path_list: list of paths to the raster data 
+    input_return_periods: list of floats that contains exceedence probabilities of the provided rasters. This must be the same length as the first argument  
+    elevation_raster: str, path to the elevation DEM data 
+    depth_or_wse:str, If the provided data are depth, set this as 'depth'. If they are water surface elevation, this this to 'wse'. 
+    depth_units:str, The units for the input flood rasters. Options are 'ft', 'feet', 'm', 'meter', and 'meters'
+    dem_units: str, The units for the DEM data. Options are 'ft', 'feet', 'm', 'meter', and 'meters'
+    interpolation_method:str, The method for interpolation. Options are 'log-linear' or 'spline' 
+    flood_zone_return_period:list, If you want to output data/maps for a specific return period, enter the return period here. Otherwise, set as 0
+    output_data_dir: str, directory of where you want to save output data (mainly geo-tif files)
+    output_plot_dir: str, directory of where you want to save output plots 
+    aep_raster_generate:int, #The path where you want to save the AEP data. Will be saved as raster (.tif). If you do not want this, set it as None
+    aep_map_generate:int, #The path where you want to save the AEP map plots. Will be saved as .png. If you do not want this, set it as None
+    flood_zone_raster_generate:int, #If you want to output data/maps for a specific return period, enter the path where you want to save raster data (as .tif) 
+    flood_zone_map_generate:int, #If you want to output data/maps for a specific return period, enter the path where you want to save the maps (as .png) 
+    extrapolate: int = 1, #If the interpolation should be allowed to do extrapolation. default is 1 (yes). If no, set it to 0
+    input_dem_plot_generate: int=0, #If you want to save the plot showing the DEM map, set the path here. Otherwise, set to None
+    input_depth_plot_generate: int=0, #If you want to save the plot showing the flood maps, set the path here. Otherwise, set to None
+    sample_point = if a sample point is provided, this fuction puts a red dot in the location of the point. If you do not wish to have this point, set this to None. If yu would like to provide this input, it should be in this format: (x,y). Default is None
+    backfill_nans=False, If you want to bacfill NaNs internally. If set to False. You need to run backfilling NaNs before running this function.
+    areaName = 'None', Name of this study area. This name will be included in the output data/plots 
+    verbose:str = 1, If you would like to print the progress of the function. Options are 0 for no and 1 for yes
+    
+    returns: nothing 
     '''
     
     if not os.path.isdir(output_plot_dir):
@@ -748,9 +876,29 @@ def FLOPIT_preProcessed(ds,
            
           ):
     '''
-    This function returns the xarray dataset that contains the interpolated probabilities
-    '''
+    This is also the main FLOPIT function. It receives the paths to DEM and flood rasters and saves tif files and plots as requested in the inputs. It does not return anything. 
+    The difference between this function and the previous one is that this function receives the pre-processed and backfilled flood data along with the DEM information in an xarray dataset. It does not receive the paths. You should read + preprocess + backfill NaNs before runnign this function. Please refer to the main Jupyter Notebook for more information. 
     
+    input_return_periods:list, list of floats that contains exceedence probabilities of the provided rasters. This must be the same length as the first argument  
+    elevation_raster: str, path to the elevation DEM data 
+    interpolation_method:str, #The method for interpolation. Options are 'log-linear' or 'spline' 
+    interpolation_method:str, The method for interpolation. Options are 'log-linear' or 'spline' 
+    flood_zone_return_period:list, If you want to output data/maps for a specific return period, enter the return period here. Otherwise, set as 0
+    output_data_dir: str, directory of where you want to save output data (mainly geo-tif files)
+    output_plot_dir: str, directory of where you want to save output plots 
+    aep_raster_generate:int, #The path where you want to save the AEP data. Will be saved as raster (.tif). If you do not want this, set it as None
+    aep_map_generate:int, #The path where you want to save the AEP map plots. Will be saved as .png. If you do not want this, set it as None
+    flood_zone_raster_generate:int, #If you want to output data/maps for a specific return period, enter the path where you want to save raster data (as .tif) 
+    flood_zone_map_generate:int, #If you want to output data/maps for a specific return period, enter the path where you want to save the maps (as .png) 
+    extrapolate: int = 1, #If the interpolation should be allowed to do extrapolation. default is 1 (yes). If no, set it to 0
+    input_dem_plot_generate: int=0, #If you want to save the plot showing the DEM map, set the path here. Otherwise, set to None
+    input_depth_plot_generate: int=0, #If you want to save the plot showing the flood maps, set the path here. Otherwise, set to None
+    sample_point = if a sample point is provided, this fuction puts a red dot in the location of the point. If you do not wish to have this point, set this to None. If yu would like to provide this input, it should be in this format: (x,y). Default is None
+    areaName = 'None', Name of this study area. This name will be included in the output data/plots 
+    verbose:str = 1, If you would like to print the progress of the function. Options are 0 for no and 1 for yes
+    
+    returns: nothing 
+    '''    
     if not os.path.isdir(output_plot_dir):
         print(f"creating a directory for output plots: {output_plot_dir}") if verbose == 1 else None
         os.mkdir(output_plot_dir)
