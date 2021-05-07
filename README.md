@@ -2,6 +2,9 @@
 
 This repository is for the PCHES FLOPIT (FLOod Probability Interpolation Tool) project. This tool is distributed under the GNU Public License. No claim of a warranty is expressed or implied, nor does the distribution constitute a warranty.
 
+## Acknowledgments
+This work was supported by the U.S. Department of Energy, Office of Science, Biological and Environmental Research Program, Earth and Environmental Systems Modeling, MultiSector Dynamics, Contract No. DE-SC0016162.
+
 ### Citation: 
 Zarekarizi, M.; Roop-Eckart, K.J.; Sharma, S.; Keller, K. The FLOod Probability Interpolation Tool (FLOPIT): A Simple Tool to Improve Spatial Flood Probability Quantification and Communication. Water 2021, 13, 666. https://doi.org/10.3390/w13050666
 
